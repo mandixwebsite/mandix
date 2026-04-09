@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1a73e8;
+  --color-primary-dark: #1557b0;
+  --color-primary-light: #e8f0fe;
+  --color-oxford: #001a34;
+  --color-navy: #001a34;
+  --color-text-dark: #0d1b2e;
+  --color-text-mid: #4a4a6a;
+  --color-text-light: #6b7280;
+  --color-bg-light: #f8f9fc;
+  --font-sans: "Larken", "Inter", system-ui, sans-serif;
+  --font-secondary: "Avenir Next", system-ui, sans-serif;
+}
+
+@layer base {
+  @font-face {
+    font-family: 'Avenir Next';
+    src: url('./assets/1-fonts/avenir-next/AvenirNextCyr-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Avenir Next';
+    src: url('./assets/1-fonts/avenir-next/AvenirNextCyr-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Avenir Next';
+    src: url('./assets/1-fonts/avenir-next/AvenirNextCyr-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Avenir Next';
+    src: url('./assets/1-fonts/avenir-next/AvenirNextCyr-Demi.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Avenir Next';
+    src: url('./assets/1-fonts/avenir-next/AvenirNextCyr-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Larken';
+    src: url('./assets/1-fonts/Larken Serif/LarkenDEMO-Thin.otf') format('opentype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Larken';
+    src: url('./assets/1-fonts/Larken Serif/LarkenDEMO-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Larken';
+    src: url('./assets/1-fonts/Larken Serif/LarkenDEMO-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Larken';
+    src: url('./assets/1-fonts/Larken Serif/LarkenDEMO-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Larken';
+    src: url('./assets/1-fonts/Larken Serif/LarkenDEMO-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Larken';
+    src: url('./assets/1-fonts/Larken Serif/LarkenDEMO-ExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Larken';
+    src: url('./assets/1-fonts/Larken Serif/LarkenDEMO-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --primary: #1a73e8;
+    --primary-dark: #1557b0;
+    --primary-light: #e8f0fe;
+    --text-dark: #0d1b2e;
+    --text-mid: #4a4a6a;
+    --text-light: #6b7280;
+    --border: #e5e7eb;
+    --bg-light: #f8f9fc;
+    --white: #ffffff;
+    --navy: #001a34;
+    --success: #10b981;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--text-dark);
+    background: var(--white);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  button {
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  input, select, textarea {
+    font-family: inherit;
+  }
+}
