@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { CheckCircle2, ArrowRight } from 'lucide-react'
+import { CheckCircle2, ArrowRight, Loader2 } from 'lucide-react'
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000'
 
 function CalendarPicker({ selected, onSelect }: { selected: number | null; onSelect: (d: number) => void }) {
   const today = new Date()
@@ -34,9 +36,9 @@ function CalendarPicker({ selected, onSelect }: { selected: number | null; onSel
   return (
     <div className="bg-[#f8f9fc] rounded-2xl border border-gray-100 p-5">
       <div className="flex items-center justify-between mb-4">
-        <button onClick={prevMonth} className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-200 transition-colors text-lg font-bold">‹</button>
+        <button type="button" onClick={prevMonth} className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-200 transition-colors text-lg font-bold">‹</button>
         <span className="text-sm font-semibold text-[#0d1b2e]">{months[currentMonth]} {currentYear}</span>
-        <button onClick={nextMonth} className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-200 transition-colors text-lg font-bold">›</button>
+        <button type="button" onClick={nextMonth} className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-200 transition-colors text-lg font-bold">›</button>
       </div>
       <div className="grid grid-cols-7 mb-1">
         {dayNames.map((d, i) => (
@@ -47,6 +49,7 @@ function CalendarPicker({ selected, onSelect }: { selected: number | null; onSel
         {cells.map((d, i) => (
           <button
             key={i}
+            type="button"
             disabled={!d || isPast(d!)}
             onClick={() => d && !isPast(d) && onSelect(d)}
             className={`h-8 w-full text-xs font-medium rounded-lg transition-all duration-150 ${
@@ -65,12 +68,41 @@ function CalendarPicker({ selected, onSelect }: { selected: number | null; onSel
 }
 
 export default function Appointment() {
+  const [form, setForm] = useState({
+    name: '', email: '', phone: '', company: '',
+    service: '', preferred_time: '', notes: '',
+  })
   const [selectedDate, setSelectedDate] = useState<number | null>(null)
+  const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setLoading(true)
+    setError('')
+    try {
+      const today = new Date()
+      const preferred_date = selectedDate
+        ? `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(selectedDate).padStart(2, '0')}`
+        : ''
+      const res = await fetch(`${API_URL}/api/appointment`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, preferred_date }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Something went wrong.')
+      setSubmitted(true)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (submitted) {
@@ -85,7 +117,7 @@ export default function Appointment() {
             <p className="text-gray-500 mb-8">We'll confirm your appointment shortly via email. Our team will reach out within 24 hours.</p>
             <button
               className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#1a73e8] text-white font-semibold rounded-xl hover:bg-[#1557b0] transition-all"
-              onClick={() => setSubmitted(false)}
+              onClick={() => { setSubmitted(false); setForm({ name: '', email: '', phone: '', company: '', service: '', preferred_time: '', notes: '' }); setSelectedDate(null) }}
             >
               Book Another Appointment
             </button>
@@ -141,20 +173,29 @@ export default function Appointment() {
             {/* Form panel */}
             <div className="lg:col-span-2 bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
               <h3 className="text-xl font-bold text-[#1a73e8] mb-8">Request Your Consultation</h3>
+              {error && (
+                <div className="mb-5 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm flex items-center gap-2">
+                  <span>⚠️</span> {error}
+                </div>
+              )}
               <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   {[
-                    { label: 'Full Name *', type: 'text', placeholder: 'John Doe', required: true },
-                    { label: 'Email Address *', type: 'email', placeholder: 'john@example.com', required: true },
-                    { label: 'Phone Number *', type: 'tel', placeholder: '+1 (555) 000-0000', required: true },
-                    { label: 'Company Name', type: 'text', placeholder: 'Acme Corp', required: false },
+                    { label: 'Full Name *', name: 'name', type: 'text', placeholder: 'John Doe', required: true },
+                    { label: 'Email Address *', name: 'email', type: 'email', placeholder: 'john@example.com', required: true },
+                    { label: 'Phone Number *', name: 'phone', type: 'tel', placeholder: '+1 (555) 000-0000', required: true },
+                    { label: 'Company Name', name: 'company', type: 'text', placeholder: 'Acme Corp', required: false },
                   ].map(f => (
-                    <div key={f.label} className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold text-[#0d1b2e]">{f.label}</label>
+                    <div key={f.name} className="flex flex-col gap-1.5">
+                      <label htmlFor={`appt-${f.name}`} className="text-xs font-semibold text-[#0d1b2e]">{f.label}</label>
                       <input
+                        id={`appt-${f.name}`}
+                        name={f.name}
                         type={f.type}
                         placeholder={f.placeholder}
                         required={f.required}
+                        value={form[f.name as keyof typeof form]}
+                        onChange={handleChange}
                         className="px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm text-[#0d1b2e] outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10 transition-all bg-gray-50 placeholder:text-gray-300"
                       />
                     </div>
@@ -163,20 +204,34 @@ export default function Appointment() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold text-[#0d1b2e]">Service Required *</label>
-                    <select required className="px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm text-[#0d1b2e] outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10 transition-all bg-gray-50 appearance-none">
+                    <label htmlFor="appt-service" className="text-xs font-semibold text-[#0d1b2e]">Service Required *</label>
+                    <select
+                      id="appt-service"
+                      name="service"
+                      required
+                      value={form.service}
+                      onChange={handleChange}
+                      className="px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm text-[#0d1b2e] outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10 transition-all bg-gray-50 appearance-none"
+                    >
                       <option value="">Select a service</option>
-                      <option>Auditing & Assurance</option>
+                      <option>Auditing &amp; Assurance</option>
                       <option>Taxation Planning</option>
                       <option>Financial Advisory</option>
                       <option>Corporate Advisory</option>
-                      <option>Bookkeeping & Accounting</option>
+                      <option>Bookkeeping &amp; Accounting</option>
                       <option>Business Formation</option>
                     </select>
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold text-[#0d1b2e]">Preferred Time *</label>
-                    <select required className="px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm text-[#0d1b2e] outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10 transition-all bg-gray-50 appearance-none">
+                    <label htmlFor="appt-time" className="text-xs font-semibold text-[#0d1b2e]">Preferred Time *</label>
+                    <select
+                      id="appt-time"
+                      name="preferred_time"
+                      required
+                      value={form.preferred_time}
+                      onChange={handleChange}
+                      className="px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm text-[#0d1b2e] outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10 transition-all bg-gray-50 appearance-none"
+                    >
                       <option value="">Select a time</option>
                       {['9:00 AM','10:00 AM','11:00 AM','12:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM'].map(t => (
                         <option key={t}>{t}</option>
@@ -186,10 +241,14 @@ export default function Appointment() {
                 </div>
 
                 <div className="mb-5">
-                  <label className="text-xs font-semibold text-[#0d1b2e] block mb-1.5">Tell us about your needs</label>
+                  <label htmlFor="appt-notes" className="text-xs font-semibold text-[#0d1b2e] block mb-1.5">Tell us about your needs</label>
                   <textarea
+                    id="appt-notes"
+                    name="notes"
                     rows={3}
                     placeholder="Describe your requirements..."
+                    value={form.notes}
+                    onChange={handleChange}
                     className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm text-[#0d1b2e] outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10 transition-all bg-gray-50 placeholder:text-gray-300 resize-none"
                   />
                 </div>
@@ -201,9 +260,10 @@ export default function Appointment() {
 
                 <button
                   type="submit"
-                  className="w-full flex justify-center items-center gap-2 px-6 py-3.5 bg-[#1a73e8] text-white font-semibold rounded-xl hover:bg-[#1557b0] transition-all hover:-translate-y-0.5 shadow-md"
+                  disabled={loading}
+                  className="w-full flex justify-center items-center gap-2 px-6 py-3.5 bg-[#1a73e8] text-white font-semibold rounded-xl hover:bg-[#1557b0] transition-all hover:-translate-y-0.5 shadow-md disabled:opacity-70 disabled:cursor-not-allowed disabled:translate-y-0"
                 >
-                  Book Your Appointment <ArrowRight size={16} />
+                  {loading ? <><Loader2 size={16} className="animate-spin" /> Booking...</> : <>Book Your Appointment <ArrowRight size={16} /></>}
                 </button>
               </form>
             </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MapPin, Phone, Mail, Clock, CheckCircle2, ArrowRight, MessageSquare } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock, CheckCircle2, ArrowRight, MessageSquare, Loader2 } from 'lucide-react'
 
 const contactInfo = [
   {
@@ -28,12 +28,39 @@ const contactInfo = [
   },
 ]
 
-export default function Contact() {
-  const [submitted, setSubmitted] = useState(false)
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000'
 
-  const handleSubmit = (e: React.FormEvent) => {
+export default function Contact() {
+  const [form, setForm] = useState({
+    name: '', email: '', phone: '', company: '',
+    service: '', subject: '', message: '',
+  })
+  const [loading, setLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState('')
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch(`${API_URL}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Something went wrong.')
+      setSubmitted(true)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -55,8 +82,8 @@ export default function Contact() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {contactInfo.map((item, i) => (
-              <div key={i} className="bg-[#f8f9fc] rounded-2xl p-6 border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
+            {contactInfo.map((item) => (
+              <div key={item.title} className="bg-[#f8f9fc] rounded-2xl p-6 border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group">
                 <div className="w-12 h-12 rounded-xl bg-[#e8f0fe] flex items-center justify-center text-[#1a73e8] mb-4 group-hover:bg-[#1a73e8] group-hover:text-white transition-colors duration-300">
                   {item.icon}
                 </div>
@@ -100,7 +127,7 @@ export default function Contact() {
                 </div>
                 <p className="text-xs text-gray-400 mb-4">Prefer to chat? Reach us directly on WhatsApp for faster responses.</p>
                 <a
-                  href="https://wa.me/914012345678"
+                  href="https://wa.me/+919676424384"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#25d366] text-white font-semibold rounded-xl text-sm hover:bg-[#1fba59] transition-colors"
@@ -121,7 +148,7 @@ export default function Contact() {
                   <h3 className="text-xl font-bold text-[#0d1b2e] mb-2">Message Sent!</h3>
                   <p className="text-gray-500 text-sm mb-6">Thank you for reaching out. Our team will get back to you within 24 hours.</p>
                   <button
-                    onClick={() => setSubmitted(false)}
+                    onClick={() => { setSubmitted(false); setForm({ name: '', email: '', phone: '', company: '', service: '', subject: '', message: '' }) }}
                     className="inline-flex items-center gap-2 px-6 py-2.5 border-2 border-[#1a73e8] text-[#1a73e8] font-semibold rounded-xl hover:bg-[#1a73e8] hover:text-white transition-all text-sm"
                   >
                     Send Another Message
@@ -130,61 +157,85 @@ export default function Contact() {
               ) : (
                 <>
                   <h2 className="text-xl font-bold text-[#1a73e8] mb-6">Send Us a Message</h2>
+                  {error && (
+                    <div className="mb-4 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-sm flex items-center gap-2">
+                      <span>⚠️</span> {error}
+                    </div>
+                  )}
                   <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                       {[
-                        { label: 'Full Name *', type: 'text', placeholder: 'John Doe', required: true },
-                        { label: 'Email Address *', type: 'email', placeholder: 'john@company.com', required: true },
-                        { label: 'Phone Number', type: 'tel', placeholder: '+91 98765 43210', required: false },
-                        { label: 'Company Name', type: 'text', placeholder: 'Your Company', required: false },
+                        { label: 'Full Name *', name: 'name', type: 'text', placeholder: 'John Doe', required: true },
+                        { label: 'Email Address *', name: 'email', type: 'email', placeholder: 'john@company.com', required: true },
+                        { label: 'Phone Number', name: 'phone', type: 'tel', placeholder: '+91 98765 43210', required: false },
+                        { label: 'Company Name', name: 'company', type: 'text', placeholder: 'Your Company', required: false },
                       ].map(f => (
-                        <div key={f.label} className="flex flex-col gap-1.5">
-                          <label className="text-xs font-semibold text-[#0d1b2e]">{f.label}</label>
+                        <div key={f.name} className="flex flex-col gap-1.5">
+                          <label htmlFor={`contact-${f.name}`} className="text-xs font-semibold text-[#0d1b2e]">{f.label}</label>
                           <input
+                            id={`contact-${f.name}`}
+                            name={f.name}
                             type={f.type}
                             placeholder={f.placeholder}
                             required={f.required}
+                            value={form[f.name as keyof typeof form]}
+                            onChange={handleChange}
                             className="px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm text-[#0d1b2e] outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10 transition-all bg-gray-50 placeholder:text-gray-300"
                           />
                         </div>
                       ))}
                     </div>
                     <div className="mb-4">
-                      <label className="text-xs font-semibold text-[#0d1b2e] block mb-1.5">Service of Interest</label>
-                      <select className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm text-[#0d1b2e] outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10 transition-all bg-gray-50 appearance-none">
+                      <label htmlFor="contact-service" className="text-xs font-semibold text-[#0d1b2e] block mb-1.5">Service of Interest</label>
+                      <select
+                        id="contact-service"
+                        name="service"
+                        value={form.service}
+                        onChange={handleChange}
+                        className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm text-[#0d1b2e] outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10 transition-all bg-gray-50 appearance-none"
+                      >
                         <option value="">Select a service (optional)</option>
-                        <option>Auditing & Assurance</option>
+                        <option>Auditing &amp; Assurance</option>
                         <option>Taxation Planning</option>
                         <option>Financial Advisory</option>
                         <option>Corporate Advisory</option>
-                        <option>Bookkeeping & Accounting</option>
+                        <option>Bookkeeping &amp; Accounting</option>
                         <option>Business Formation</option>
                         <option>Other / General Enquiry</option>
                       </select>
                     </div>
                     <div className="mb-4">
-                      <label className="text-xs font-semibold text-[#0d1b2e] block mb-1.5">Subject *</label>
+                      <label htmlFor="contact-subject" className="text-xs font-semibold text-[#0d1b2e] block mb-1.5">Subject *</label>
                       <input
+                        id="contact-subject"
+                        name="subject"
                         type="text"
                         placeholder="What is your message about?"
                         required
+                        value={form.subject}
+                        onChange={handleChange}
                         className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm text-[#0d1b2e] outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10 transition-all bg-gray-50 placeholder:text-gray-300"
                       />
                     </div>
                     <div className="mb-6">
-                      <label className="text-xs font-semibold text-[#0d1b2e] block mb-1.5">Your Message *</label>
+                      <label htmlFor="contact-message" className="text-xs font-semibold text-[#0d1b2e] block mb-1.5">Your Message *</label>
                       <textarea
+                        id="contact-message"
+                        name="message"
                         rows={5}
                         required
                         placeholder="Please describe how we can assist you..."
+                        value={form.message}
+                        onChange={handleChange}
                         className="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm text-[#0d1b2e] outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10 transition-all bg-gray-50 placeholder:text-gray-300 resize-none"
                       />
                     </div>
                     <button
                       type="submit"
-                      className="w-full flex justify-center items-center gap-2 px-6 py-3.5 bg-[#1a73e8] text-white font-semibold rounded-xl hover:bg-[#1557b0] transition-all hover:-translate-y-0.5 shadow-md"
+                      disabled={loading}
+                      className="w-full flex justify-center items-center gap-2 px-6 py-3.5 bg-[#1a73e8] text-white font-semibold rounded-xl hover:bg-[#1557b0] transition-all hover:-translate-y-0.5 shadow-md disabled:opacity-70 disabled:cursor-not-allowed disabled:translate-y-0"
                     >
-                      Send Message <ArrowRight size={16} />
+                      {loading ? <><Loader2 size={16} className="animate-spin" /> Sending...</> : <>Send Message <ArrowRight size={16} /></>}
                     </button>
                   </form>
                 </>
@@ -198,16 +249,17 @@ export default function Contact() {
       <section className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
           <div className="rounded-2xl overflow-hidden shadow-sm border border-gray-100 h-[400px]">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9914406081493!2d2.292292615674477!3d48.85837360866268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sEiffel%20Tower!5e0!3m2!1sen!2sus!4v1689255000000!5m2!1sen!2sus" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen={true} 
-              loading="lazy" 
+            <iframe
+              title="Mandix Office Location"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9914406081493!2d2.292292615674477!3d48.85837360866268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sEiffel%20Tower!5e0!3m2!1sen!2sus!4v1689255000000!5m2!1sen!2sus"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="w-full h-full"
-            ></iframe>
+            />
           </div>
         </div>
       </section>
