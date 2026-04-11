@@ -182,8 +182,8 @@ export default function Appointment() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   {[
                     { label: 'Full Name *', name: 'name', type: 'text', placeholder: 'John Doe', required: true },
-                    { label: 'Email Address *', name: 'email', type: 'email', placeholder: 'john@example.com', required: true },
-                    { label: 'Phone Number *', name: 'phone', type: 'tel', placeholder: '+1 (555) 000-0000', required: true },
+                    { label: 'Email Address *', name: 'email', type: 'email', placeholder: 'john@company.com', required: true },
+                    { label: 'Phone Number *', name: 'phone', type: 'tel', placeholder: '+91 90005 42422', required: true },
                     { label: 'Company Name', name: 'company', type: 'text', placeholder: 'Acme Corp', required: false },
                   ].map(f => (
                     <div key={f.name} className="flex flex-col gap-1.5">

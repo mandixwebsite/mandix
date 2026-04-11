@@ -78,9 +78,9 @@ export default function Footer() {
             <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-5">Contact Info</h4>
             <ul className="space-y-4">
               {[
-                { Icon: MapPin, text: '123 Business Avenue, Financial District, City, Country' },
-                { Icon: Phone, text: '+1 (555) 123-4567' },
-                { Icon: Mail, text: 'info@mandixconsultants.com' },
+                { Icon: MapPin, text: 'Plot no 20, 3rd floor 3B, Green Park Avenue, Suchitra, Telangana - 500067' },
+                { Icon: Phone, text: '+91 90005 42422' },
+                { Icon: Mail, text: 'mandixconsultants@gmail.com' },
                 { Icon: Clock, text: 'Mon–Fri: 9:00 AM – 6:00 PM' },
               ].map(({ Icon, text }, i) => (
                 <li key={i} className="flex items-start gap-3">
@@ -100,11 +100,12 @@ export default function Footer() {
             © {new Date().getFullYear()} Mandix Consultants. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            {['Privacy Policy', 'Terms of Service'].map(link => (
-              <a key={link} href="#" className="text-gray-500 text-sm hover:text-gray-300 transition-colors">
-                {link}
-              </a>
-            ))}
+            <Link to="/privacy-policy" className="text-gray-500 text-sm hover:text-gray-300 transition-colors">
+              Privacy Policy
+            </Link>
+            <Link to="/terms-of-service" className="text-gray-500 text-sm hover:text-gray-300 transition-colors">
+              Terms of Service
+            </Link>
           </div>
         </div>
       </div>

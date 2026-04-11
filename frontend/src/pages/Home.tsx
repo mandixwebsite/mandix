@@ -480,9 +480,9 @@ export default function Home() {
               </ul>
               <div className="pt-6 border-t border-white/20 space-y-3">
                 {[
-                  { icon: <Phone size={14} />, text: '+1 (555) 123-4567' },
-                  { icon: <Mail size={14} />, text: 'info@mandixconsultants.com' },
-                  { icon: <MapPin size={14} />, text: '123 Business Ave, Financial District' },
+                  { icon: <Phone size={14} />, text: '+91 90005 42422' },
+                  { icon: <Mail size={14} />, text: 'mandixconsultants@gmail.com' },
+                  { icon: <MapPin size={14} />, text: 'Plot no 20, 3rd floor 3B, Green Park Avenue, Suchitra, Telangana - 500067' },
                   { icon: <Clock size={14} />, text: 'Mon-Fri: 9AM - 6PM' },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 text-sm text-blue-100">
@@ -500,7 +500,7 @@ export default function Home() {
                 {[
                   { label: 'Full Name *', placeholder: 'John Doe', type: 'text' },
                   { label: 'Email Address *', placeholder: 'john@example.com', type: 'email' },
-                  { label: 'Phone Number *', placeholder: '+1 (555) 123-4567', type: 'tel' },
+                  { label: 'Phone Number *', placeholder: '+91 90005 42422', type: 'tel' },
                 ].map(field => (
                   <div key={field.label} className="flex flex-col gap-1.5">
                     <label className="text-xs font-semibold text-[#0d1b2e]">{field.label}</label>
@@ -537,7 +537,7 @@ export default function Home() {
           </div>
           <div className="mt-12 rounded-2xl overflow-hidden shadow-sm border border-gray-100 h-[400px]">
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.9914406081493!2d2.292292615674477!3d48.85837360866268!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sEiffel%20Tower!5e0!3m2!1sen!2sus!4v1689255000000!5m2!1sen!2sus" 
+              src="https://maps.google.com/maps?q=Plot%20no%2020%2C%203rd%20floor%203B%2C%20Green%20Park%20Avenue%2C%20Suchitra%2C%20Telangana%20500067&t=&z=13&ie=UTF8&iwloc=&output=embed" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
