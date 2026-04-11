@@ -37,10 +37,10 @@ export default function About() {
             <div>
               <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-4">Who We Are</p>
               <h1 className="text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-6">
-                About <span className="text-[#1a73e8]">Mandix</span> Consultants
+                About <span className="text-[#1a73e8]">Us</span>
               </h1>
               <p className="text-gray-300 leading-relaxed mb-10 text-base">
-                A leading accountancy and business advisory firm dedicated to helping organizations achieve sustainable growth and financial excellence.
+                Mandix Consultants specialises in delivering top-tier management consulting services with a focus on integrity, innovation, and client satisfaction. Based in India with global ambitions, we simplify financial complexities and ensure compliance through personalised, reliable solutions.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {[['15+','Years Exp.'],['500+','Clients'],['95%','Retention'],['50+','Experts']].map(([n,l]) => (
@@ -62,34 +62,26 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── STORY ── */}
+      {/* ── MISSION & VISION ── */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-              <img
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80"
-                alt="Our office"
-                className="rounded-2xl shadow-xl w-full object-cover aspect-[4/3]"
-              />
-              <span className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm text-xs font-medium text-gray-500 px-3 py-1.5 rounded-lg border border-gray-100">
-                Mandix Head Office
-              </span>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            <div className="bg-[#f8f9fc] rounded-2xl p-10 border border-gray-100 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#1a73e8]/5 rounded-bl-full -mr-8 -mt-8" />
+              <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Our Mission</p>
+              <h2 className="text-3xl font-extrabold text-[#0d1b2e] mb-6">A Robust Alternative</h2>
+              <p className="text-gray-500 text-base leading-relaxed relative z-10">
+                Mandix Consultants is dedicated to delivering exceptional management consulting services to a diverse clientele. By establishing a robust presence in India, we aim to provide a compelling alternative to international firms. Our mission is to cultivate a sense of trust and ease among our clients, ensuring their financial affairs are expertly managed and secure under our guidance.
+              </p>
             </div>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Our Story</p>
-              <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e] mb-6">Built on Trust,<br />Driven by Results</h2>
-              <div className="space-y-4 text-gray-500 text-sm leading-relaxed">
-                <p>
-                  Founded in 2010, Mandix started with a simple mission: to provide businesses with practical, actionable strategies that drive real results. What began as a small team of three consultants has grown into a dynamic firm with expertise across multiple industries.
-                </p>
-                <p>
-                  Over the years, we've helped hundreds of companies transform their operations, increase profitability, and achieve sustainable growth. Our success comes from our commitment to understanding each client's unique challenges and opportunities.
-                </p>
-                <p>
-                  Today, we continue to expand our capabilities while maintaining the personalized service and rigorous standards that have been our hallmark since day one.
-                </p>
-              </div>
+            
+            <div className="bg-[#f8f9fc] rounded-2xl p-10 border border-gray-100 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#1a73e8]/5 rounded-bl-full -mr-8 -mt-8" />
+              <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Our Vision</p>
+              <h2 className="text-3xl font-extrabold text-[#0d1b2e] mb-6">Global Compliance</h2>
+              <p className="text-gray-500 text-base leading-relaxed relative z-10">
+                Mandix Consultants aims to establish a global presence, delivering tailored management services aligned with local regulations across multiple countries. We aspire to earn widespread trust by embodying a familial commitment to our clients, assuming full responsibility for their financial well-being. Our overarching goal is to streamline financial processes, offering education and guidance that aligns seamlessly with governmental frameworks.
+              </p>
             </div>
           </div>
         </div>

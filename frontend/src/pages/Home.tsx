@@ -10,34 +10,34 @@ import type { NormalizedPost } from '../lib/api'
 
 const services = [
   {
-    icon: <TrendingUp size={22} />,
-    title: 'Auditing & Assurance',
-    desc: 'Comprehensive auditing services to ensure compliance and provide stakeholders with confidence in your financial reporting.',
-  },
-  {
     icon: <FileText size={22} />,
-    title: 'Taxation Planning',
-    desc: 'Strategic tax planning and compliance services to minimize your tax burden while ensuring full regulatory compliance.',
+    title: 'Statutory Audit',
+    desc: 'Rigorous financial statement and compliance audits to enhance transparency and stakeholder confidence.',
   },
   {
     icon: <BarChart2 size={22} />,
-    title: 'Financial Advisory',
-    desc: 'Expert financial guidance to help you make informed decisions about investments, acquisitions, and financial strategy.',
+    title: 'Internal Audit',
+    desc: 'Risk-based internal audits, operational audits, and IT audits tailored to streamline your processes.',
   },
   {
-    icon: <Briefcase size={22} />,
-    title: 'Corporate Advisory',
-    desc: 'Strategic business consulting to optimize operations, improve performance, and achieve sustainable growth.',
-  },
-  {
-    icon: <BookOpen size={22} />,
-    title: 'Bookkeeping & Accounting',
-    desc: 'Accurate and timely bookkeeping services to maintain your financial records and provide management with actionable insights.',
+    icon: <TrendingUp size={22} />,
+    title: 'Corporate Tax Services',
+    desc: 'Expert tax compliance, reporting, and planning strategies designed to optimize your regulatory tax footprint.',
   },
   {
     icon: <Building2 size={22} />,
-    title: 'Business Formation',
-    desc: 'Comprehensive support for establishing new businesses, including entity selection, registration, and compliance setup.',
+    title: 'Indirect Tax Services',
+    desc: 'Comprehensive GST compliance, advisory, and transaction tax strategies tailored to your industry.',
+  },
+  {
+    icon: <Briefcase size={22} />,
+    title: 'Corporate Finance',
+    desc: 'Specialized corporate finance solutions including detailed valuation services and robust transaction support.',
+  },
+  {
+    icon: <BookOpen size={22} />,
+    title: 'Outsourcing Services',
+    desc: 'End-to-end outsourcing solutions for payroll processing, accounting, bookkeeping, and managed finance.',
   },
 ]
 
@@ -515,10 +515,11 @@ export default function Home() {
                   <label className="text-xs font-semibold text-[#0d1b2e]">Subject *</label>
                   <select className="px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm text-[#0d1b2e] outline-none focus:border-[#1a73e8] focus:ring-2 focus:ring-[#1a73e8]/10 transition-all bg-gray-50 appearance-none">
                     <option>Select a subject</option>
-                    <option>Auditing</option>
-                    <option>Tax Planning</option>
-                    <option>Financial Advisory</option>
-                    <option>Other</option>
+                    <option>Audit and Assurance</option>
+                    <option>Tax Services</option>
+                    <option>Corporate Finance</option>
+                    <option>Outsourcing Services</option>
+                    <option>Other / General Enquiry</option>
                   </select>
                 </div>
               </div>

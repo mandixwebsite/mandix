@@ -1,43 +1,76 @@
 import { Link } from 'react-router-dom'
-import { TrendingUp, FileText, BarChart2, Briefcase, BookOpen, Building2, CheckCircle2, ArrowRight } from 'lucide-react'
+import { FileText, Calculator, Briefcase, CheckCircle2, ArrowRight } from 'lucide-react'
 
-const services = [
+const serviceCategories = [
   {
-    icon: <TrendingUp size={26} />,
-    title: 'Strategic Business Consulting',
-    desc: 'Transform your business with our strategic consulting services tailored to your industry challenges.',
-    features: ['Comprehensive business assessment', 'Custom growth strategies', 'Operational efficiency review', 'Market positioning analysis'],
+    category: 'Audit and Assurance Services',
+    description: 'Our audit and assurance services enhance transparency and stakeholder confidence through rigorous financial and compliance audits.',
+    icon: <FileText size={22} className="text-[#1a73e8]" />,
+    services: [
+      {
+        title: 'Statutory Audit',
+        features: ['Financial statement audits', 'Compliance audits'],
+      },
+      {
+        title: 'Internal Audit',
+        features: ['Risk-based internal audits', 'Operational audits', 'IT audits'],
+      },
+      {
+        title: 'Specialty Assurance Services',
+        features: ['Forensic audits and investigations', 'Regulatory compliance audits'],
+      },
+      {
+        title: 'Review and Compilation Services',
+        features: ['Limited reviews of financial statements', 'Compilation of financial information'],
+      },
+    ]
   },
   {
-    icon: <BarChart2 size={26} />,
-    title: 'Financial Advisory',
-    desc: 'Expert financial guidance to maximize profitability and ensure sustainable growth.',
-    features: ['Financial health assessment', 'Capital structure optimization', 'Investment advisory', 'Risk management'],
+    category: 'Tax Services',
+    description: 'We provide expert tax compliance, planning, and advisory services to optimize your tax strategy and ensure regulatory compliance.',
+    icon: <Calculator size={22} className="text-[#1a73e8]" />,
+    services: [
+      {
+        title: 'Corporate Tax Services',
+        features: ['Tax compliance and reporting', 'Tax planning and strategy', 'Tax risk management', 'Transfer pricing', 'International tax services'],
+      },
+      {
+        title: 'Indirect Tax Services',
+        features: ['GST compliance and advisory', 'Customs and excise duty consulting', 'Transaction tax advisory'],
+      },
+      {
+        title: 'Personal Tax Services',
+        features: ['Individual tax planning', 'Wealth management and estate planning', 'International assignee tax services'],
+      },
+      {
+        title: 'Tax Dispute Resolution',
+        features: ['Representation before tax authorities', 'Appeals and litigation support', 'Tax settlement strategies'],
+      },
+    ]
   },
   {
-    icon: <Building2 size={26} />,
-    title: 'Digital Transformation',
-    desc: 'Harness the power of digital technologies to revolutionize your business operations.',
-    features: ['Technology stack assessment', 'Digital roadmap development', 'Process automation', 'Change management'],
-  },
-  {
-    icon: <Briefcase size={26} />,
-    title: 'Corporate Advisory',
-    desc: 'Strategic business consulting to optimize operations, improve performance, and achieve sustainable growth.',
-    features: ['Mergers & acquisitions', 'Corporate restructuring', 'Board advisory', 'Governance frameworks'],
-  },
-  {
-    icon: <FileText size={26} />,
-    title: 'Auditing & Assurance',
-    desc: 'Comprehensive auditing services to ensure compliance and provide stakeholders with confidence.',
-    features: ['Statutory audits', 'Internal audit reviews', 'Compliance audits', 'Financial due diligence'],
-  },
-  {
-    icon: <BookOpen size={26} />,
-    title: 'Legal & Compliance',
-    desc: 'Navigate complex regulatory environments with our comprehensive legal and compliance advisory services.',
-    features: ['Regulatory compliance', 'Contract review', 'Legal risk assessment', 'Policy development'],
-  },
+    category: 'Additional Services',
+    description: 'We offer specialized services, including corporate finance, legal advisory, and outsourcing solutions for payroll and accounting, tailored to your business need.',
+    icon: <Briefcase size={22} className="text-[#1a73e8]" />,
+    services: [
+      {
+        title: 'Corporate Finance',
+        features: ['Valuation services', 'Transaction support'],
+      },
+      {
+        title: 'Outsourcing Services',
+        features: ['Payroll processing', 'Accounting and bookkeeping', 'Managed services for finance and accounting', 'Credit Monitoring Analysis - CMA Reporting', 'Digital Signature - DSC'],
+      },
+      {
+        title: 'Registrar of Companies (ROC)',
+        features: ['Formation of companies', 'Filing Resolutions with ROC', 'Filing Forms with ROC'],
+      },
+      {
+        title: 'Registrations and Licensing',
+        features: ['GST Registration', 'Partnership Registration', 'MSME Registration', 'Shop and Establishment Registration'],
+      },
+    ]
+  }
 ]
 
 export default function Services() {
@@ -48,10 +81,10 @@ export default function Services() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-4">Our Expertise</p>
           <h1 className="text-4xl lg:text-5xl font-extrabold text-white mb-6 leading-tight">
-            Expert Consulting <span className="text-[#1a73e8]">Services</span>
+            Comprehensive <span className="text-[#1a73e8]">Services</span>
           </h1>
           <p className="text-gray-300 text-base leading-relaxed mb-10 max-w-xl mx-auto">
-            Transformative solutions designed to elevate your business performance and drive sustainable growth.
+            Transformative financial, tax, and assurance solutions designed to elevate your business performance and drive sustainable growth.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link
@@ -70,42 +103,53 @@ export default function Services() {
         </div>
       </section>
 
-      {/* ── SERVICES GRID ── */}
+      {/* ── SERVICES SECTION ── */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Comprehensive Solutions</p>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e] mb-4">Our Service Offerings</h2>
-            <p className="text-gray-500">Comprehensive consulting solutions designed to address your most critical business challenges</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((s, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-7 group"
-              >
-                <div className="w-13 h-13 w-14 h-14 rounded-2xl bg-[#e8f0fe] flex items-center justify-center text-[#1a73e8] mb-6 group-hover:bg-[#1a73e8] group-hover:text-white transition-colors duration-300">
-                  {s.icon}
+          
+          {serviceCategories.map((category, idx) => (
+            <div key={idx} className="mb-24 last:mb-0">
+              <div className="max-w-3xl mb-12">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-[#e8f0fe] flex items-center justify-center">
+                    {category.icon}
+                  </div>
+                  <h2 className="text-3xl font-extrabold text-[#0d1b2e]">{category.category}</h2>
                 </div>
-                <h3 className="text-base font-bold text-[#0d1b2e] mb-3">{s.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed mb-5">{s.desc}</p>
-                <ul className="space-y-2 mb-6">
-                  {s.features.map((f, j) => (
-                    <li key={j} className="flex items-center gap-2.5 text-xs text-gray-600">
-                      <CheckCircle2 size={13} className="text-[#1a73e8] flex-shrink-0" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  to="/appointment"
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a73e8] hover:gap-2.5 transition-all"
-                >
-                  Learn more <ArrowRight size={14} />
-                </Link>
+                <p className="text-gray-500 text-base leading-relaxed pl-16">
+                  {category.description}
+                </p>
               </div>
-            ))}
-          </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {category.services.map((s, i) => (
+                  <div
+                    key={i}
+                    className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-6 flex flex-col group"
+                  >
+                    <h3 className="text-base font-bold text-[#0d1b2e] mb-4 pb-4 border-b border-gray-100 group-hover:border-[#1a73e8]/30 transition-colors uppercase gap-2 flex items-center">
+                      <span className="text-[#1a73e8] opacity-50">{i + 1}.</span> {s.title}
+                    </h3>
+                    <ul className="space-y-3 mb-6 flex-1">
+                      {s.features.map((f, j) => (
+                        <li key={j} className="flex items-start gap-2.5 text-sm text-gray-600">
+                          <CheckCircle2 size={16} className="text-[#1a73e8] mt-0.5 flex-shrink-0 opacity-80" />
+                          <span className="leading-snug">{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link
+                      to="/appointment"
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a73e8] hover:gap-2.5 transition-all mt-auto"
+                    >
+                      Enquire now <ArrowRight size={14} />
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+
         </div>
       </section>
 
@@ -119,10 +163,10 @@ export default function Services() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { num: '01', title: 'Discovery & Assessment', desc: 'We begin by thoroughly understanding your business, challenges, and goals through in-depth consultations and data analysis.' },
-              { num: '02', title: 'Strategy Development', desc: 'Our experts craft a customized roadmap tailored to your specific needs, incorporating best practices and innovative solutions.' },
-              { num: '03', title: 'Implementation', desc: 'We work alongside your team to execute the strategy, providing hands-on support and expert guidance throughout the process.' },
-              { num: '04', title: 'Review & Optimization', desc: 'We continuously monitor progress, measure results, and refine our approach to ensure optimal outcomes and lasting impact.' },
+              { num: '01', title: 'Discovery & Assessment', desc: 'We begin by thoroughly understanding your business, financial challenges, and goals through in-depth consultations.' },
+              { num: '02', title: 'Strategy & Framework', desc: 'Our experts craft a customized solution tailored to your compliance or advisory needs, incorporating best practices.' },
+              { num: '03', title: 'Implementation', desc: 'We work alongside your team to execute the plan, providing hands-on support and expert guidance throughout.' },
+              { num: '04', title: 'Review & Reporting', desc: 'We provide detailed reporting, continuous monitoring, and refine our approach to ensure optimal outcomes.' },
             ].map((step, i) => (
               <div key={i} className="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm hover:shadow-lg transition-shadow relative overflow-hidden">
                 <span className="absolute top-4 right-5 text-5xl font-extrabold text-[#f0f4ff] select-none">{step.num}</span>
