@@ -1,83 +1,44 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { ChevronRight, Clock, ArrowRight } from 'lucide-react'
-
-export const allPosts = [
-  {
-    id: 'future-strategic-consulting',
-    category: 'Strategy',
-    title: 'The Future of Strategic Consulting in a Post-Pandemic World',
-    excerpt: 'How businesses are adapting their strategic frameworks to navigate uncertain times and build resilience for the future. The landscape of business has fundamentally shifted, and traditional advisory models are evolving rapidly to meet new demands.',
-    author: 'Sarah Johnson',
-    readTime: '5 min read',
-    date: 'March 15, 2024',
-    img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=340&fit=crop&q=80',
-    featured: true,
-  },
-  {
-    id: 'digital-transformation-success',
-    category: 'Technology',
-    title: 'Digital Transformation Success Stories',
-    excerpt: 'Case studies of companies that successfully navigated digital transformation challenges and emerged stronger. Learn from the real-world applications of AI, cloud computing, and automated workflows across standard enterprise models.',
-    author: 'Michael Chen',
-    readTime: '7 min read',
-    date: 'March 8, 2024',
-    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=340&fit=crop&q=80',
-    featured: false,
-  },
-  {
-    id: 'financial-strategy-uncertain-times',
-    category: 'Finance',
-    title: 'Financial Strategy for Uncertain Times',
-    excerpt: 'How to manage company finances during market volatility and economic uncertainty. Proactive financial planning is no longer optional; it is a critical defensive measure for mid-market businesses looking to secure long-term capital.',
-    author: 'Lisa Rodriguez',
-    readTime: '6 min read',
-    date: 'Feb 28, 2024',
-    img: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&h=340&fit=crop&q=80',
-    featured: false,
-  },
-  {
-    id: 'tax-planning-sme',
-    category: 'Tax',
-    title: 'Top Tax Planning Strategies for SMEs in 2024',
-    excerpt: 'Effective tax optimization techniques that small and medium enterprises can implement to reduce their tax burden legally. Leveraging new incentives and restructuring entity schemas can open up substantial reinvestment capital.',
-    author: 'David Patel',
-    readTime: '8 min read',
-    date: 'Feb 20, 2024',
-    img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=340&fit=crop&q=80',
-    featured: false,
-  },
-  {
-    id: 'building-resilient-business',
-    category: 'Strategy',
-    title: 'Building a Resilient Business Model',
-    excerpt: 'Key frameworks and tools for building businesses that can withstand disruption and adapt to change. Core competencies should pivot from rigid, localized structures to decentralized, agile operational models that react instantly to market shifts.',
-    author: 'Emily Watson',
-    readTime: '4 min read',
-    date: 'Feb 10, 2024',
-    img: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&h=340&fit=crop&q=80',
-    featured: false,
-  },
-  {
-    id: 'corporate-governance-best-practices',
-    category: 'Finance',
-    title: 'Understanding Corporate Governance Best Practices',
-    excerpt: 'A guide to implementing effective corporate governance frameworks that protect stakeholder interests. Proper board oversight, transparent auditing processes, and robust compliance measures form the bedrock of sustainable corporate success.',
-    author: 'James Okafor',
-    readTime: '6 min read',
-    date: 'Jan 30, 2024',
-    img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=340&fit=crop&q=80',
-    featured: false,
-  },
-]
+import { ChevronRight, Clock, ArrowRight, Loader2 } from 'lucide-react'
+import { fetchPosts } from '../lib/api'
+import type { NormalizedPost } from '../lib/api'
 
 const categories = ['All', 'Strategy', 'Technology', 'Finance', 'Tax']
 
 export default function Blog() {
   const [active, setActive] = useState('All')
-  const filtered = active === 'All' ? allPosts : allPosts.filter(p => p.category === active)
-  const featured = allPosts[0]
+  const [posts, setPosts] = useState<NormalizedPost[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
+  useEffect(() => {
+    async function loadPosts() {
+      try {
+        setLoading(true)
+        const data = await fetchPosts()
+        setPosts(data)
+      } catch (err) {
+        console.error(err)
+        setError('Failed to load blog posts. Please try again later.')
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadPosts()
+  }, [])
+
+  const filtered = active === 'All' ? posts : posts.filter(p => p.category === active)
+  
+  // Choose featured post. Since Strapi sorts by publishedAt desc, 
+  // we first try to find one explicitly fully featured, else take the most recent
+  const featured = posts.find(p => p.featured) || posts[0]
+
+  // Everything other than the featured post (if we are on 'All' category)
+  // or everything matching category (if filtered)
+  const gridPosts = active === 'All' 
+    ? posts.filter(p => p.id !== featured?.id) 
+    : filtered
 
   return (
     <main className="pt-[68px]">
@@ -92,99 +53,131 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* ── FEATURED POST ── */}
-      {active === 'All' && (
-        <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-6">Featured Article</p>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center bg-[#f8f9fc] rounded-3xl overflow-hidden border border-gray-100 shadow-sm">
-              <div className="overflow-hidden h-72 lg:h-full">
-                <img
-                  src={featured.img}
-                  alt={featured.title}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="p-8 lg:p-10">
-                <span className="inline-flex px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#e8f0fe] text-[#1a73e8] uppercase tracking-wider mb-4">
-                  {featured.category}
-                </span>
-                <h2 className="text-2xl lg:text-3xl font-extrabold text-[#0d1b2e] mb-4 leading-snug">{featured.title}</h2>
-                <p className="text-gray-500 text-sm leading-relaxed mb-6">{featured.excerpt}</p>
-                <div className="flex items-center gap-4 text-xs text-gray-400 mb-6">
-                  <span className="font-medium text-[#0d1b2e]">{featured.author}</span>
-                  <span>·</span>
-                  <span>{featured.date}</span>
-                  <span>·</span>
-                  <span className="flex items-center gap-1"><Clock size={12} />{featured.readTime}</span>
-                </div>
-                <Link
-                  to={`/blog/${featured.id}`}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-[#1a73e8] text-white font-semibold rounded-xl hover:bg-[#1557b0] transition-all hover:-translate-y-0.5 text-sm"
-                >
-                  Read Full Article <ArrowRight size={14} />
-                </Link>
-              </div>
-            </div>
-          </div>
+      {/* ── LOADING / ERROR STATES ── */}
+      {loading && (
+        <section className="py-24 text-center">
+           <Loader2 className="animate-spin w-8 h-8 text-[#1a73e8] mx-auto mb-4" />
+           <p className="text-gray-500">Loading insights...</p>
         </section>
       )}
 
-      {/* ── FILTER + GRID ── */}
-      <section className="py-16 bg-[#f8f9fc]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Filter tabs */}
-          <div className="flex flex-wrap gap-2 mb-10">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActive(cat)}
-                className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                  active === cat
-                    ? 'bg-[#1a73e8] text-white shadow-md'
-                    : 'bg-white text-[#4a4a6a] border border-gray-200 hover:border-[#1a73e8] hover:text-[#1a73e8]'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+      {error && !loading && (
+        <section className="py-24 text-center">
+           <p className="text-red-500 font-medium">{error}</p>
+        </section>
+      )}
 
-          {/* Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-            {(active === 'All' ? allPosts.slice(1) : filtered).map((post, i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                <div className="overflow-hidden h-48">
-                  <img
-                    src={post.img}
-                    alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-                <div className="p-6">
-                  <span className="inline-flex px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#e8f0fe] text-[#1a73e8] uppercase tracking-wider mb-3">
-                    {post.category}
-                  </span>
-                  <h3 className="text-base font-bold text-[#0d1b2e] mb-2 leading-snug line-clamp-2">{post.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed mb-4 line-clamp-2">{post.excerpt}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-xs text-gray-400">
-                      <Clock size={11} />
-                      {post.readTime}
+      {!loading && !error && posts.length === 0 && (
+         <section className="py-24 text-center bg-white">
+           <p className="text-gray-500">No blog posts found at the moment. Check back soon!</p>
+         </section>
+      )}
+
+      {!loading && !error && posts.length > 0 && (
+        <>
+          {/* ── FEATURED POST ── */}
+          {active === 'All' && featured && (
+            <section className="py-16 bg-white">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-6">Featured Article</p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center bg-[#f8f9fc] rounded-3xl overflow-hidden border border-gray-100 shadow-sm">
+                  <div className="overflow-hidden h-72 lg:h-full">
+                    <img
+                      src={featured.img}
+                      alt={featured.title}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="p-8 lg:p-10">
+                    <span className="inline-flex px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#e8f0fe] text-[#1a73e8] uppercase tracking-wider mb-4">
+                      {featured.category}
+                    </span>
+                    <h2 className="text-2xl lg:text-3xl font-extrabold text-[#0d1b2e] mb-4 leading-snug">{featured.title}</h2>
+                    <p className="text-gray-500 text-sm leading-relaxed mb-6">{featured.excerpt}</p>
+                    <div className="flex items-center gap-4 text-xs text-gray-400 mb-6">
+                      <span className="font-medium text-[#0d1b2e]">{featured.author}</span>
+                      <span>·</span>
+                      <span>{featured.date}</span>
+                      <span>·</span>
+                      <span className="flex items-center gap-1"><Clock size={12} />{featured.readTime}</span>
                     </div>
                     <Link
-                      to={`/blog/${post.id}`}
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#1a73e8] hover:gap-2 transition-all"
+                      to={`/blog/${featured.slug}`}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-[#1a73e8] text-white font-semibold rounded-xl hover:bg-[#1557b0] transition-all hover:-translate-y-0.5 text-sm"
                     >
-                      Read More <ChevronRight size={12} />
+                      Read Full Article <ArrowRight size={14} />
                     </Link>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </section>
+          )}
+
+          {/* ── FILTER + GRID ── */}
+          <section className="py-16 bg-[#f8f9fc]">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              {/* Filter tabs */}
+              <div className="flex flex-wrap gap-2 mb-10">
+                {categories.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setActive(cat)}
+                    className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                      active === cat
+                        ? 'bg-[#1a73e8] text-white shadow-md'
+                        : 'bg-white text-[#4a4a6a] border border-gray-200 hover:border-[#1a73e8] hover:text-[#1a73e8]'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              {/* Grid */}
+              {gridPosts.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                  {gridPosts.map((post) => (
+                    <div key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+                      <div className="overflow-hidden h-48 flex-shrink-0">
+                        <img
+                          src={post.img}
+                          alt={post.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                      <div className="p-6 flex flex-col flex-1">
+                        <div className="mb-auto">
+                          <span className="inline-flex px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#e8f0fe] text-[#1a73e8] uppercase tracking-wider mb-3">
+                            {post.category}
+                          </span>
+                          <h3 className="text-base font-bold text-[#0d1b2e] mb-2 leading-snug line-clamp-2">{post.title}</h3>
+                          <p className="text-sm text-gray-500 leading-relaxed mb-4 line-clamp-2">{post.excerpt}</p>
+                        </div>
+                        <div className="flex items-center justify-between mt-4">
+                          <div className="flex items-center gap-2 text-xs text-gray-400">
+                            <Clock size={11} />
+                            {post.readTime}
+                          </div>
+                          <Link
+                            to={`/blog/${post.slug}`}
+                            className="inline-flex items-center gap-1 text-xs font-semibold text-[#1a73e8] hover:gap-2 transition-all"
+                          >
+                            Read More <ChevronRight size={12} />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                   <p className="text-gray-500">No matching posts found in this category.</p>
+                </div>
+              )}
+            </div>
+          </section>
+        </>
+      )}
 
       {/* ── NEWSLETTER ── */}
       <section className="py-20 bg-[#1a73e8]">

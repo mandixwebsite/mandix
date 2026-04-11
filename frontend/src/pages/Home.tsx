@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   ArrowRight, TrendingUp, FileText, BarChart2, Briefcase,
   BookOpen, Building2, CheckCircle2, Star, ChevronRight,
-  Shield, Award, Users, Phone, Mail, MapPin, Clock
+  Shield, Award, Users, Phone, Mail, MapPin, Clock, Loader2
 } from 'lucide-react'
-import { allPosts } from './Blog'
+import { fetchPosts } from '../lib/api'
+import type { NormalizedPost } from '../lib/api'
 
 const services = [
   {
@@ -147,6 +148,23 @@ function CalendarWidget() {
 }
 
 export default function Home() {
+  const [latestPosts, setLatestPosts] = useState<NormalizedPost[]>([])
+  const [postsLoading, setPostsLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadLatestPosts() {
+      try {
+        const data = await fetchPosts()
+        setLatestPosts(data.slice(0, 3))
+      } catch (err) {
+        console.error('Failed to load posts', err)
+      } finally {
+        setPostsLoading(false)
+      }
+    }
+    loadLatestPosts()
+  }, [])
+
   return (
     <main className="pt-[68px]">
       {/* ── HERO ── */}
@@ -380,14 +398,6 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="text-center mt-10">
-            <a
-              href="#"
-              className="inline-flex items-center gap-2 px-6 py-3 border-2 border-[#1a73e8] text-[#1a73e8] font-semibold rounded-xl hover:bg-[#1a73e8] hover:text-white transition-all hover:-translate-y-0.5"
-            >
-              Leave Us a Review <Star size={15} />
-            </a>
-          </div>
         </div>
       </section>
 
@@ -398,32 +408,45 @@ export default function Home() {
             <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Latest Insights</p>
             <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e]">From Our Blog</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {allPosts.slice(0, 3).map((post, i) => (
-              <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                <div className="overflow-hidden h-48">
-                  <img
-                    src={post.img}
-                    alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+          {postsLoading ? (
+            <div className="flex flex-col items-center justify-center py-12">
+              <Loader2 className="animate-spin w-8 h-8 text-[#1a73e8] mb-4" />
+              <p className="text-gray-500">Loading latest insights...</p>
+            </div>
+          ) : latestPosts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {latestPosts.map((post) => (
+                <div key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+                  <div className="overflow-hidden h-48 flex-shrink-0">
+                    <img
+                      src={post.img}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="p-6 flex flex-col flex-1">
+                    <div className="mb-auto">
+                      <span className="inline-flex px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#e8f0fe] text-[#1a73e8] uppercase tracking-wider mb-3">
+                        {post.category}
+                      </span>
+                      <h3 className="text-base font-bold text-[#0d1b2e] mb-2 leading-snug line-clamp-2">{post.title}</h3>
+                      <p className="text-sm text-gray-500 leading-relaxed mb-4 line-clamp-3">{post.excerpt}</p>
+                    </div>
+                    <Link
+                      to={`/blog/${post.slug}`}
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a73e8] hover:gap-2.5 transition-all mt-4"
+                    >
+                      Read More <ChevronRight size={14} />
+                    </Link>
+                  </div>
                 </div>
-                <div className="p-6">
-                  <span className="inline-flex px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#e8f0fe] text-[#1a73e8] uppercase tracking-wider mb-3">
-                    {post.category}
-                  </span>
-                  <h3 className="text-base font-bold text-[#0d1b2e] mb-2 leading-snug">{post.title}</h3>
-                  <p className="text-sm text-gray-500 leading-relaxed mb-4 line-clamp-3">{post.excerpt}</p>
-                  <Link
-                    to={`/blog/${post.id}`}
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#1a73e8] hover:gap-2.5 transition-all"
-                  >
-                    Read More <ChevronRight size={14} />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-500">No blog posts available at the moment.</p>
+            </div>
+          )}
         </div>
       </section>
 

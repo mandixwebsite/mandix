@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { MapPin, Phone, Mail, Clock,  } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock } from 'lucide-react'
+import simplifiedLogo from '../assets/4-svgs/Simplified logo.svg'
 
 export default function Footer() {
   return (
@@ -9,19 +10,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-10 h-10 rounded-xl overflow-hidden">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                  <rect width="40" height="40" rx="8" fill="#1a73e8"/>
-                  <path d="M8 28V12l8 10 8-10v16" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                  <circle cx="30" cy="16" r="5" fill="white" opacity="0.9"/>
-                  <circle cx="30" cy="28" r="5" fill="white" opacity="0.9"/>
-                </svg>
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="text-lg font-bold tracking-wide text-white">MANDIX</span>
-                <span className="text-[10px] font-semibold tracking-[0.2em] text-[#1a73e8] uppercase">Consultants</span>
-              </div>
+            <div className="flex items-center mb-5">
+              <img src={simplifiedLogo} alt="Mandix Consultants" className="h-14 w-auto" />
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               Expert accountancy and business advisory services dedicated to helping you achieve your financial goals with comprehensive, tailored solutions.
@@ -110,7 +100,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Mandix Consultants. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map(link => (
+            {['Privacy Policy', 'Terms of Service'].map(link => (
               <a key={link} href="#" className="text-gray-500 text-sm hover:text-gray-300 transition-colors">
                 {link}
               </a>

@@ -1,17 +1,63 @@
 import { useParams, Link } from 'react-router-dom'
-import { allPosts } from './Blog'
-import { Clock, ArrowLeft, Share2, Check } from 'lucide-react'
-import { useState } from 'react'
+import { Clock, ArrowLeft, Share2, Check, Loader2 } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import { fetchPostBySlug } from '../lib/api'
+import type { NormalizedPost } from '../lib/api'
 
 export default function BlogPost() {
-  const { id } = useParams()
-  const post = allPosts.find(p => p.id === id) || allPosts[0]
+  const { id } = useParams() // this will be the slug
+  const [post, setPost] = useState<NormalizedPost | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    async function loadPost() {
+      if (!id) return
+      try {
+        setLoading(true)
+        const data = await fetchPostBySlug(id)
+        if (!data) {
+          setError('Post not found.')
+        } else {
+          setPost(data)
+        }
+      } catch (err) {
+        console.error(err)
+        setError('Failed to load blog post. Please try again later.')
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadPost()
+  }, [id])
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  if (loading) {
+     return (
+        <main className="pt-[140px] pb-24 text-center min-h-[50vh] flex flex-col items-center justify-center">
+           <Loader2 className="animate-spin w-8 h-8 text-[#1a73e8] mx-auto mb-4" />
+           <p className="text-gray-500">Loading article...</p>
+        </main>
+     )
+  }
+
+  if (error || !post) {
+     return (
+        <main className="pt-[140px] pb-24 text-center min-h-[50vh] flex flex-col items-center justify-center">
+           <p className="text-red-500 font-medium mb-6">{error || 'Post not found'}</p>
+           <Link to="/blog" className="inline-flex items-center gap-2 px-6 py-3 bg-[#1a73e8] text-white font-semibold rounded-xl hover:bg-[#1557b0] transition-colors">
+              <ArrowLeft size={16}/> Return to Blog
+           </Link>
+        </main>
+     )
   }
 
   const shareUrl = encodeURIComponent(window.location.href)
@@ -51,32 +97,18 @@ export default function BlogPost() {
             alt={post.title}
             className="w-full aspect-[21/9] object-cover rounded-3xl shadow-xl border border-gray-100 mb-12"
           />
-          <div className="prose prose-lg text-gray-600 max-w-none">
-            <p className="text-xl font-medium text-[#0d1b2e] leading-relaxed mb-8">
-              {post.excerpt}
-            </p>
-            <p className="mb-6">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
-            <h2 className="text-2xl font-bold text-[#0d1b2e] mt-10 mb-4">Navigating the Modern Landscape</h2>
-            <p className="mb-6">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-            <blockquote className="border-l-4 border-[#1a73e8] pl-6 py-3 my-8 bg-[#f8f9fc] rounded-r-xl italic text-lg text-[#0d1b2e]">
-              "The ability to adapt quickly and effectively is no longer a competitive advantage; it's a fundamental requirement for survival in today's market."
-            </blockquote>
-            <p className="mb-6">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-            </p>
-            <h3 className="text-xl font-bold text-[#0d1b2e] mt-10 mb-4">Key Takeaways</h3>
-            <ul className="list-disc pl-6 space-y-2 mb-8 text-gray-600 marker:text-[#1a73e8]">
-              <li>Understand the shifting demands of modern strategic frameworks.</li>
-              <li>Implement agile operational models for immediate market response.</li>
-              <li>Secure long-term capital through robust corporate governance.</li>
-            </ul>
+          
+          <div className="prose prose-lg prose-blue text-gray-600 max-w-none prose-headings:text-[#0d1b2e] prose-a:text-[#1a73e8] marker:text-[#1a73e8]">
+             <p className="text-xl font-medium text-[#0d1b2e] leading-relaxed mb-8">
+               {post.excerpt}
+             </p>
+             {/* Render Strapi markdown content safely */}
+             <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {post.content}
+             </ReactMarkdown>
           </div>
           
-          <div className="flex items-center justify-between mt-16 pt-8 border-t border-gray-100">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-16 pt-8 border-t border-gray-100 gap-6">
             <div className="flex items-center gap-4">
               <span className="text-sm font-semibold text-[#0d1b2e]">Share:</span>
               <div className="flex items-center gap-2">
@@ -102,7 +134,7 @@ export default function BlogPost() {
             </div>
             <button 
               onClick={handleCopyLink}
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#1a73e8] hover:text-[#1557b0] transition-colors bg-[#f8f9fc] px-4 py-2 rounded-lg hover:bg-[#e8f0fe] w-32 justify-center"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#1a73e8] hover:text-[#1557b0] transition-colors bg-[#f8f9fc] px-4 py-2 rounded-lg hover:bg-[#e8f0fe] w-full sm:w-32 justify-center"
             >
               {copied ? (
                 <>
