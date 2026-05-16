@@ -43,7 +43,7 @@ export interface NormalizedPost {
 // Each value is the raw file string including frontmatter.
 // The key is the file path relative to the project root.
 const rawFiles = import.meta.glob<{ default: string }>(
-  '../content/blogs/*.md',
+  '../../content/blogs/*.md',
   { eager: true, query: '?raw', import: 'default' }
 )
 
