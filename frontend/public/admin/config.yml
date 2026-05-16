@@ -21,8 +21,8 @@ backend:
 # local_backend: true
 
 # Where uploaded images are stored in the repo
-# Path is relative to where decap-server is started (frontend/ directory)
-media_folder: public/images/blogs
+# Path is relative to the root of the GitHub repository
+media_folder: frontend/public/images/blogs
 # How those images are referenced in markdown (public/ is served at /)
 public_folder: /images/blogs
 
@@ -35,8 +35,8 @@ collections:
   - name: blog
     label: Blog Posts
     label_singular: Blog Post
-    # Path relative to where decap-server is started (frontend/ directory)
-    folder: content/blogs # where .md files are stored
+    # Path relative to the root of the GitHub repository
+    folder: frontend/content/blogs # where .md files are stored
     create: true # allow creating new posts
     delete: true
     slug: "{{slug}}" # filename = slugified title
