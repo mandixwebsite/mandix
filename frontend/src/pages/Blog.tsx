@@ -1,51 +1,35 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ChevronRight, Clock, ArrowRight, Loader2 } from 'lucide-react'
+import { ChevronRight, Clock, ArrowRight } from 'lucide-react'
 import { fetchPosts } from '../lib/api'
 import type { NormalizedPost } from '../lib/api'
+
+// Posts are loaded synchronously at module init from local .md files —
+// no network request, no loading state, no error state needed.
+const allPosts: NormalizedPost[] = fetchPosts()
 
 const categories = ['All', 'Strategy', 'Technology', 'Finance', 'Tax']
 
 export default function Blog() {
   const [active, setActive] = useState('All')
-  const [posts, setPosts] = useState<NormalizedPost[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    async function loadPosts() {
-      try {
-        setLoading(true)
-        const data = await fetchPosts()
-        setPosts(data)
-      } catch (err) {
-        console.error(err)
-        setError('Failed to load blog posts. Please try again later.')
-      } finally {
-        setLoading(false)
-      }
-    }
-    loadPosts()
-  }, [])
+  const filtered = active === 'All' ? allPosts : allPosts.filter(p => p.category === active)
 
-  const filtered = active === 'All' ? posts : posts.filter(p => p.category === active)
-  
-  // Choose featured post. Since Strapi sorts by publishedAt desc, 
-  // we first try to find one explicitly fully featured, else take the most recent
-  const featured = posts.find(p => p.featured) || posts[0]
+  // Featured post: first explicitly featured, else most recent
+  const featured = allPosts.find(p => p.featured) || allPosts[0]
 
-  // Everything other than the featured post (if we are on 'All' category)
-  // or everything matching category (if filtered)
-  const gridPosts = active === 'All' 
-    ? posts.filter(p => p.id !== featured?.id) 
-    : filtered
+  // Everything other than the featured post (if on 'All'), else full filtered list
+  const gridPosts =
+    active === 'All'
+      ? allPosts.filter(p => p.slug !== featured?.slug)
+      : filtered
 
   return (
     <main className="pt-[68px]">
       {/* ── HERO ── */}
       <section className="bg-gradient-to-br from-[#001a34] via-[#001a34] to-[#0d3362] py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-4">Insights & Ideas</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-4">Insights &amp; Ideas</p>
           <h1 className="text-4xl lg:text-5xl font-extrabold text-white mb-6">Our <span className="text-[#1a73e8]">Blog</span></h1>
           <p className="text-gray-300 text-base leading-relaxed max-w-xl mx-auto">
             Expert perspectives on finance, strategy, taxation, and business advisory — straight from our team of certified professionals.
@@ -53,27 +37,13 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* ── LOADING / ERROR STATES ── */}
-      {loading && (
-        <section className="py-24 text-center">
-           <Loader2 className="animate-spin w-8 h-8 text-[#1a73e8] mx-auto mb-4" />
-           <p className="text-gray-500">Loading insights...</p>
+      {allPosts.length === 0 && (
+        <section className="py-24 text-center bg-white">
+          <p className="text-gray-500">No blog posts found at the moment. Check back soon!</p>
         </section>
       )}
 
-      {error && !loading && (
-        <section className="py-24 text-center">
-           <p className="text-red-500 font-medium">{error}</p>
-        </section>
-      )}
-
-      {!loading && !error && posts.length === 0 && (
-         <section className="py-24 text-center bg-white">
-           <p className="text-gray-500">No blog posts found at the moment. Check back soon!</p>
-         </section>
-      )}
-
-      {!loading && !error && posts.length > 0 && (
+      {allPosts.length > 0 && (
         <>
           {/* ── FEATURED POST ── */}
           {active === 'All' && featured && (
@@ -137,7 +107,7 @@ export default function Blog() {
               {gridPosts.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
                   {gridPosts.map((post) => (
-                    <div key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+                    <div key={post.slug} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col">
                       <div className="overflow-hidden h-48 flex-shrink-0">
                         <img
                           src={post.img}
@@ -171,7 +141,7 @@ export default function Blog() {
                 </div>
               ) : (
                 <div className="text-center py-12">
-                   <p className="text-gray-500">No matching posts found in this category.</p>
+                  <p className="text-gray-500">No matching posts found in this category.</p>
                 </div>
               )}
             </div>

@@ -1,38 +1,16 @@
 import { useParams, Link } from 'react-router-dom'
-import { Clock, ArrowLeft, Share2, Check, Loader2 } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { Clock, ArrowLeft, Share2, Check } from 'lucide-react'
+import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { fetchPostBySlug } from '../lib/api'
-import type { NormalizedPost } from '../lib/api'
 
 export default function BlogPost() {
-  const { id } = useParams() // this will be the slug
-  const [post, setPost] = useState<NormalizedPost | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const { id } = useParams() // slug from URL: /blog/my-post-slug
   const [copied, setCopied] = useState(false)
 
-  useEffect(() => {
-    async function loadPost() {
-      if (!id) return
-      try {
-        setLoading(true)
-        const data = await fetchPostBySlug(id)
-        if (!data) {
-          setError('Post not found.')
-        } else {
-          setPost(data)
-        }
-      } catch (err) {
-        console.error(err)
-        setError('Failed to load blog post. Please try again later.')
-      } finally {
-        setLoading(false)
-      }
-    }
-    loadPost()
-  }, [id])
+  // Synchronous local lookup — no loading state needed
+  const post = id ? fetchPostBySlug(id) : null
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href)
@@ -40,24 +18,18 @@ export default function BlogPost() {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  if (loading) {
-     return (
-        <main className="pt-[140px] pb-24 text-center min-h-[50vh] flex flex-col items-center justify-center">
-           <Loader2 className="animate-spin w-8 h-8 text-[#1a73e8] mx-auto mb-4" />
-           <p className="text-gray-500">Loading article...</p>
-        </main>
-     )
-  }
-
-  if (error || !post) {
-     return (
-        <main className="pt-[140px] pb-24 text-center min-h-[50vh] flex flex-col items-center justify-center">
-           <p className="text-red-500 font-medium mb-6">{error || 'Post not found'}</p>
-           <Link to="/blog" className="inline-flex items-center gap-2 px-6 py-3 bg-[#1a73e8] text-white font-semibold rounded-xl hover:bg-[#1557b0] transition-colors">
-              <ArrowLeft size={16}/> Return to Blog
-           </Link>
-        </main>
-     )
+  if (!post) {
+    return (
+      <main className="pt-[140px] pb-24 text-center min-h-[50vh] flex flex-col items-center justify-center">
+        <p className="text-red-500 font-medium mb-6">Post not found.</p>
+        <Link
+          to="/blog"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#1a73e8] text-white font-semibold rounded-xl hover:bg-[#1557b0] transition-colors"
+        >
+          <ArrowLeft size={16} /> Return to Blog
+        </Link>
+      </main>
+    )
   }
 
   const shareUrl = encodeURIComponent(window.location.href)
@@ -97,34 +69,33 @@ export default function BlogPost() {
             alt={post.title}
             className="w-full aspect-[21/9] object-cover rounded-3xl shadow-xl border border-gray-100 mb-12"
           />
-          
+
           <div className="prose prose-lg prose-blue text-gray-600 max-w-none prose-headings:text-[#0d1b2e] prose-a:text-[#1a73e8] marker:text-[#1a73e8]">
-             <p className="text-xl font-medium text-[#0d1b2e] leading-relaxed mb-8">
-               {post.excerpt}
-             </p>
-             {/* Render Strapi markdown content safely */}
-             <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {post.content}
-             </ReactMarkdown>
+            <p className="text-xl font-medium text-[#0d1b2e] leading-relaxed mb-8">
+              {post.excerpt}
+            </p>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {post.content}
+            </ReactMarkdown>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-16 pt-8 border-t border-gray-100 gap-6">
             <div className="flex items-center gap-4">
               <span className="text-sm font-semibold text-[#0d1b2e]">Share:</span>
               <div className="flex items-center gap-2">
-                <button 
+                <button
                   onClick={() => window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${shareTitle}`, '_blank', 'noreferrer')}
                   className="px-4 py-2 rounded-lg bg-[#f8f9fc] text-xs font-bold text-gray-500 hover:text-white hover:bg-[#0077b5] transition-colors shadow-sm"
                 >
                   IN
                 </button>
-                <button 
+                <button
                   onClick={() => window.open(`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`, '_blank', 'noreferrer')}
                   className="px-4 py-2 rounded-lg bg-[#f8f9fc] text-xs font-bold text-gray-500 hover:text-white hover:bg-[#1DA1F2] transition-colors shadow-sm"
                 >
                   TW
                 </button>
-                <button 
+                <button
                   onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`, '_blank', 'noreferrer')}
                   className="px-4 py-2 rounded-lg bg-[#f8f9fc] text-xs font-bold text-gray-500 hover:text-white hover:bg-[#4267B2] transition-colors shadow-sm"
                 >
@@ -132,18 +103,14 @@ export default function BlogPost() {
                 </button>
               </div>
             </div>
-            <button 
+            <button
               onClick={handleCopyLink}
               className="inline-flex items-center gap-2 text-sm font-semibold text-[#1a73e8] hover:text-[#1557b0] transition-colors bg-[#f8f9fc] px-4 py-2 rounded-lg hover:bg-[#e8f0fe] w-full sm:w-32 justify-center"
             >
               {copied ? (
-                <>
-                  <Check size={16} /> Copied!
-                </>
+                <><Check size={16} /> Copied!</>
               ) : (
-                <>
-                  <Share2 size={16} /> Copy Link
-                </>
+                <><Share2 size={16} /> Copy Link</>
               )}
             </button>
           </div>

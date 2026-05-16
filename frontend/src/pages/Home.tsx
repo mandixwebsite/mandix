@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   ArrowRight, TrendingUp, FileText, BarChart2, Briefcase,
   BookOpen, Building2, CheckCircle2, Star, ChevronRight,
-  Shield, Award, Users, Phone, Mail, MapPin, Clock, Loader2
+  Shield, Award, Users, Phone, Mail, MapPin, Clock
 } from 'lucide-react'
 import { fetchPosts } from '../lib/api'
 import type { NormalizedPost } from '../lib/api'
@@ -147,23 +147,10 @@ function CalendarWidget() {
   )
 }
 
-export default function Home() {
-  const [latestPosts, setLatestPosts] = useState<NormalizedPost[]>([])
-  const [postsLoading, setPostsLoading] = useState(true)
+// Load latest 3 posts synchronously from local markdown files
+const latestPosts: NormalizedPost[] = fetchPosts().slice(0, 3)
 
-  useEffect(() => {
-    async function loadLatestPosts() {
-      try {
-        const data = await fetchPosts()
-        setLatestPosts(data.slice(0, 3))
-      } catch (err) {
-        console.error('Failed to load posts', err)
-      } finally {
-        setPostsLoading(false)
-      }
-    }
-    loadLatestPosts()
-  }, [])
+export default function Home() {
 
   return (
     <main className="pt-[68px]">
@@ -408,15 +395,10 @@ export default function Home() {
             <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Latest Insights</p>
             <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e]">From Our Blog</h2>
           </div>
-          {postsLoading ? (
-            <div className="flex flex-col items-center justify-center py-12">
-              <Loader2 className="animate-spin w-8 h-8 text-[#1a73e8] mb-4" />
-              <p className="text-gray-500">Loading latest insights...</p>
-            </div>
-          ) : latestPosts.length > 0 ? (
+          {latestPosts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {latestPosts.map((post) => (
-                <div key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+                <div key={post.slug} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col">
                   <div className="overflow-hidden h-48 flex-shrink-0">
                     <img
                       src={post.img}

@@ -1,0 +1,100 @@
+# Decap CMS Configuration
+# Docs: https://decapcms.org/docs/configuration-options/
+#
+# ──────────────────────────────────────────────────────────────────────
+# SETUP INSTRUCTIONS:
+#
+# 1. Replace YOUR_GITHUB_USERNAME and YOUR_REPO_NAME below
+# 2. Replace YOUR_SITE_URL with your Vercel domain (e.g. mandix.vercel.app)
+# 3. Make sure your GitHub OAuth App callback URL is:
+#    https://YOUR_SITE_URL/api/auth
+# ──────────────────────────────────────────────────────────────────────
+
+backend:
+  name: github
+  repo: mohitvermax/mandix-website # e.g. mohitvermax/mandix-website
+  branch: main # branch to commit to
+  base_url: https://mandix-eight.vercel.app/ # your Vercel deployment URL
+  auth_endpoint: /api/auth # Vercel serverless OAuth proxy
+
+# Local development: run `npx decap-server` and uncomment this:
+# local_backend: true
+
+# Where uploaded images are stored in the repo
+media_folder: frontend/public/images/blogs
+# How those images are referenced in markdown (public/ is served at /)
+public_folder: /images/blogs
+
+# Show a live preview of content changes (optional, nice UX)
+publish_mode: editorial_workflow
+
+# ── Collections ────────────────────────────────────────────────────────
+
+collections:
+  - name: blog
+    label: Blog Posts
+    label_singular: Blog Post
+    folder: frontend/content/blogs # where .md files are stored in the repo
+    create: true # allow creating new posts
+    delete: true
+    slug: "{{slug}}" # filename = slugified title
+    extension: md
+    format: frontmatter
+
+    # These are the form fields shown in the CMS editor
+    fields:
+      - label: Title
+        name: title
+        widget: string
+        hint: "The blog post headline. Keep it under 70 characters for SEO."
+
+      - label: Publish Date
+        name: date
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        default: ""
+
+      - label: Excerpt
+        name: excerpt
+        widget: text
+        hint: "Short summary shown on the blog listing page. 1-2 sentences."
+
+      - label: Cover Image
+        name: cover
+        widget: image
+        required: false
+        hint: "Recommended: 1200×630px JPG/PNG"
+
+      - label: Category
+        name: category
+        widget: select
+        options:
+          - Strategy
+          - Technology
+          - Finance
+          - Tax
+        default: Finance
+
+      - label: Author
+        name: author
+        widget: string
+        default: "Mandix Advisory Team"
+
+      - label: Read Time
+        name: readTime
+        widget: string
+        default: "5 min read"
+        hint: "e.g. '5 min read'"
+
+      - label: Featured Post
+        name: featured
+        widget: boolean
+        default: false
+        hint: "If enabled, this post appears in the large hero slot on the blog page."
+
+      - label: Content
+        name: body
+        widget: markdown
+        hint: "Write your blog post here. Full markdown supported including tables, code blocks, images."
