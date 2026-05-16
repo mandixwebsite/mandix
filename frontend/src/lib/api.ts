@@ -13,7 +13,7 @@
  *   4. Blog.tsx / BlogPost.tsx import these functions and use them synchronously
  */
 
-import matter from 'gray-matter'
+import fm from 'front-matter'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -59,7 +59,9 @@ const FALLBACK_IMG =
 // ---------------------------------------------------------------------------
 
 function parsePost(filePath: string, rawContent: string): NormalizedPost {
-  const { data, content } = matter(rawContent)
+  const parsed = fm<any>(rawContent)
+  const data = parsed.attributes
+  const content = parsed.body
 
   // Derive slug from filename: "../content/blogs/my-post.md" → "my-post"
   const slug = filePath.replace(/^.*\//, '').replace(/\.md$/, '')
