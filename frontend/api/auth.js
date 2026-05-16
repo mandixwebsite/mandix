@@ -32,7 +32,11 @@ export default async function handler(req, res) {
   }
 
   if (!code) {
-    return res.status(400).send(renderError('Missing OAuth code parameter.'))
+    // Step 1: Decap CMS opens this endpoint without a code.
+    // We must redirect the user to GitHub to authorize the app.
+    const authUrl = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&scope=repo,user`
+    res.setHeader('Location', authUrl)
+    return res.status(302).end()
   }
 
   try {
