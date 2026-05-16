@@ -12,7 +12,7 @@
 
 backend:
   name: github
-  repo: mohitvermax/mandix-website # e.g. mohitvermax/mandix-website
+  repo: mohitvermax/mandix # e.g. mohitvermax/mandix-website
   branch: main # branch to commit to
   base_url: https://mandix-eight.vercel.app/ # your Vercel deployment URL
   auth_endpoint: /api/auth # Vercel serverless OAuth proxy
