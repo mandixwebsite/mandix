@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { CheckCircle2, ArrowRight, Loader2 } from 'lucide-react'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+const API_URL = import.meta.env.DEV ? 'http://localhost:4000' : ''
 
 function CalendarPicker({ selected, onSelect }: { selected: number | null; onSelect: (d: number) => void }) {
   const today = new Date()

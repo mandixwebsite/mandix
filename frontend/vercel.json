@@ -1,6 +1,14 @@
 {
   "rewrites": [
     {
+      "source": "/api/contact",
+      "destination": "https://mandix-production.up.railway.app/api/contact"
+    },
+    {
+      "source": "/api/appointment",
+      "destination": "https://mandix-production.up.railway.app/api/appointment"
+    },
+    {
       "source": "/admin(.*)",
       "destination": "/admin/index.html"
     },
