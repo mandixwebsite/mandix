@@ -1,16 +1,9 @@
 require('dotenv').config()
-const nodemailer = require('nodemailer')
+const { Resend } = require('resend')
 const { createClient } = require('@supabase/supabase-js')
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY)
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-})
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 /**
  * POST /api/appointment
@@ -63,16 +56,15 @@ async function handleAppointment(req, res) {
     </div>
   `
 
-  try {
-    await transporter.sendMail({
-      from: `"Mandix Website" <${process.env.GMAIL_USER}>`,
-      to: process.env.CEO_EMAIL,
-      subject: `[Appointment] ${service} — ${name} at ${preferred_time}${preferred_date ? ` on ${preferred_date}` : ''}`,
-      html,
-    })
-  } catch (mailErr) {
+  // Because domain is not verified, we MUST send from onboarding@resend.dev
+  resend.emails.send({
+    from: `Mandix Website <onboarding@resend.dev>`,
+    to: process.env.CEO_EMAIL,
+    subject: `[Appointment] ${service} — ${name} at ${preferred_time}${preferred_date ? ` on ${preferred_date}` : ''}`,
+    html,
+  }).catch(mailErr => {
     console.error('Email send error:', mailErr)
-  }
+  })
 
   return res.status(200).json({ success: true, message: 'Appointment booked! We will confirm with you within 24 hours.' })
 }

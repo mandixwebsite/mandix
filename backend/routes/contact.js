@@ -1,16 +1,9 @@
 require('dotenv').config()
-const nodemailer = require('nodemailer')
+const { Resend } = require('resend')
 const { createClient } = require('@supabase/supabase-js')
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY)
-
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-})
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 /**
  * POST /api/contact
@@ -61,17 +54,16 @@ async function handleContact(req, res) {
     </div>
   `
 
-  try {
-    await transporter.sendMail({
-      from: `"Mandix Website" <${process.env.GMAIL_USER}>`,
-      to: process.env.CEO_EMAIL,
-      subject: `[Contact] ${subject} — from ${name}`,
-      html,
-    })
-  } catch (mailErr) {
+  // 2. Send email to CEO (Fire-and-forget: do not await so the frontend doesn't hang)
+  // Because domain is not verified, we MUST send from onboarding@resend.dev
+  resend.emails.send({
+    from: `Mandix Website <onboarding@resend.dev>`,
+    to: process.env.CEO_EMAIL,
+    subject: `[Contact] ${subject} — from ${name}`,
+    html,
+  }).catch(mailErr => {
     console.error('Email send error:', mailErr)
-    // Don't fail the request — data is already saved in DB
-  }
+  })
 
   return res.status(200).json({ success: true, message: 'Message received! We will get back to you within 24 hours.' })
 }
