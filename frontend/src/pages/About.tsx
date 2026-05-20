@@ -1,14 +1,5 @@
 import { Shield, Zap, Users, Lightbulb } from 'lucide-react'
 
-const teamMembers = [
-  { name: 'Sarah Johnson', role: 'CEO & Managing Partner', bio: 'Over 20 years of experience in financial advisory and business strategy.' },
-  { name: 'Michael Chen', role: 'Director of Tax Services', bio: 'Specialist in corporate taxation with expertise across multiple jurisdictions.' },
-  { name: 'Lisa Rodriguez', role: 'Head of Audit & Assurance', bio: 'Certified auditor with a track record of excellence in financial reporting.' },
-  { name: 'David Patel', role: 'Senior Financial Advisor', bio: 'Expert in investment strategy and capital markets with 15+ years experience.' },
-  { name: 'Emily Watson', role: 'Corporate Advisory Lead', bio: 'Specializes in mergers, acquisitions, and corporate restructuring.' },
-  { name: 'James Okafor', role: 'Head of Business Formation', bio: 'Guides startups and SMEs through the complexities of business registration.' },
-]
-
 const values = [
   {
     icon: <Shield size={26} />,
