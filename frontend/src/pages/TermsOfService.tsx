@@ -52,7 +52,7 @@ export default function TermsOfService() {
           <p>
             In order to resolve a complaint regarding the Site or to receive further information regarding use of the Site, please contact us at:
             <br />
-            <strong>Email:</strong> mandixconsultants@gmail.com
+            <strong>Email:</strong> info@mandixconsultants.com
           </p>
         </div>
       </div>

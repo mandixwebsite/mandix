@@ -1,4 +1,4 @@
-import { Shield, Zap, Users, Award } from 'lucide-react'
+import { Shield, Zap, Users, Lightbulb } from 'lucide-react'
 
 const teamMembers = [
   { name: 'Sarah Johnson', role: 'CEO & Managing Partner', bio: 'Over 20 years of experience in financial advisory and business strategy.' },
@@ -13,17 +13,22 @@ const values = [
   {
     icon: <Shield size={26} />,
     title: 'Integrity',
-    desc: 'We adhere to the highest ethical standards in all our dealings. Our clients trust us with their most sensitive business information, and we honor that trust with unwavering integrity.',
+    desc: 'Our clients share what they share with no one else — their financials, their vulnerabilities, their ambitions. We treat that trust as our single most valuable asset, protecting it without compromise in every decision we make.',
   },
   {
     icon: <Zap size={26} />,
     title: 'Excellence',
-    desc: 'We strive for excellence in everything we do. From detailed analysis to strategic recommendations, we hold ourselves to the highest standards of quality and professionalism.',
+    desc: "Good enough has never been our benchmark. We hold every analysis, every recommendation, and every client interaction to a standard we'd be proud to defend in any boardroom — because your business deserves nothing less.",
   },
   {
     icon: <Users size={26} />,
     title: 'Collaboration',
-    desc: 'We believe in the power of collaboration. We work closely with our clients, integrating their insights with our expertise to create solutions that truly address their needs.',
+    desc: "We don't arrive with ready-made answers. We arrive with the right questions — and build every solution together with our clients, because the best financial strategies are always co-crafted, never imposed.",
+  },
+  {
+    icon: <Lightbulb size={26} />,
+    title: 'Innovation',
+    desc: "The financial world doesn't stand still — and neither do we. We continuously evolve our thinking, our tools, and our approaches to ensure our clients are always ahead of regulatory change, market shifts, and emerging opportunities.",
   },
 ]
 
@@ -37,13 +42,14 @@ export default function About() {
             <div>
               <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-4">Who We Are</p>
               <h1 className="text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-6">
-                About <span className="text-[#1a73e8]">Us</span>
+                A New Kind of <span className="text-[#1a73e8]">Financial Consulting Firm.</span>
               </h1>
               <p className="text-gray-300 leading-relaxed mb-10 text-base">
-                Mandix Consultants specialises in delivering top-tier management consulting services with a focus on integrity, innovation, and client satisfaction. Based in India with global ambitions, we simplify financial complexities and ensure compliance through personalised, reliable solutions.
+                Mandix Consultants is a full-service tax, audit, and financial advisory firm built for businesses and individuals who demand more than just compliance. Rooted in India with global ambitions, we bring specialist expertise, personal attention, and a relentless commitment to crafting financial outcomes that truly move the needle.
+
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                {[['15+','Years Exp.'],['500+','Clients'],['95%','Retention'],['50+','Experts']].map(([n,l]) => (
+                {[['100Cr+','Clients Revenue Managed'],['8+','Years of Combined Exp.'],['500+','Clients Served'],['50+','Businesses Transformed']].map(([n,l]) => (
                   <div key={l} className="text-center p-4 bg-white/5 border border-white/10 rounded-xl">
                     <span className="block text-2xl font-extrabold text-[#1a73e8]">{n}</span>
                     <span className="text-xs text-gray-400 mt-1 block">{l}</span>
@@ -65,22 +71,22 @@ export default function About() {
       {/* ── MISSION & VISION ── */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            <div className="bg-[#f8f9fc] rounded-2xl p-10 border border-gray-100 shadow-sm relative overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
+            <div className="bg-[#f8f9fc] rounded-2xl p-10 border border-gray-100 shadow-sm relative overflow-hidden h-full">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#1a73e8]/5 rounded-bl-full -mr-8 -mt-8" />
               <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Our Mission</p>
-              <h2 className="text-3xl font-extrabold text-[#0d1b2e] mb-6">A Robust Alternative</h2>
+              <h2 className="text-3xl font-extrabold text-[#0d1b2e] mb-6">Redefining What a Financial Consulting Firm Can Be.</h2>
               <p className="text-gray-500 text-base leading-relaxed relative z-10">
-                Mandix Consultants is dedicated to delivering exceptional management consulting services to a diverse clientele. By establishing a robust presence in India, we aim to provide a compelling alternative to international firms. Our mission is to cultivate a sense of trust and ease among our clients, ensuring their financial affairs are expertly managed and secure under our guidance.
+                At Mandix, our mission is simple — to deliver the calibre of financial expertise previously reserved for the largest corporations, to every client we serve. We exist to be the firm that growing businesses, ambitious individuals, and global investors turn to when financial decisions truly matter. Not just as advisors, but as long-term partners invested in your success.
               </p>
             </div>
             
-            <div className="bg-[#f8f9fc] rounded-2xl p-10 border border-gray-100 shadow-sm relative overflow-hidden">
+            <div className="bg-[#f8f9fc] rounded-2xl p-10 border border-gray-100 shadow-sm relative overflow-hidden h-full">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#1a73e8]/5 rounded-bl-full -mr-8 -mt-8" />
               <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Our Vision</p>
-              <h2 className="text-3xl font-extrabold text-[#0d1b2e] mb-6">Global Compliance</h2>
+              <h2 className="text-3xl font-extrabold text-[#0d1b2e] mb-6">An Indian Firm. A Global Standard.</h2>
               <p className="text-gray-500 text-base leading-relaxed relative z-10">
-                Mandix Consultants aims to establish a global presence, delivering tailored management services aligned with local regulations across multiple countries. We aspire to earn widespread trust by embodying a familial commitment to our clients, assuming full responsibility for their financial well-being. Our overarching goal is to streamline financial processes, offering education and guidance that aligns seamlessly with governmental frameworks.
+                We envision Mandix as a globally recognised financial consulting firm — one that carries the precision of international standards while remaining deeply attuned to the regulatory and cultural nuances of every market we serve. Our goal is to build a firm that clients across borders trust unconditionally — because trust, once earned through consistent excellence, is the only credential that truly matters.
               </p>
             </div>
           </div>
@@ -92,9 +98,9 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-xl mx-auto mb-14">
             <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Our Principles</p>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e]">Our Core Values</h2>
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e]">What We Stand For. Every Single Day.</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((v, i) => (
               <div key={i} className="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <div className="w-14 h-14 rounded-2xl bg-[#e8f0fe] flex items-center justify-center text-[#1a73e8] mx-auto mb-6">
@@ -109,7 +115,7 @@ export default function About() {
       </section>
 
       {/* ── LEADERSHIP TEAM ── */}
-      <section className="py-20 bg-white">
+      {/* <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-xl mx-auto mb-14">
             <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Leadership</p>
@@ -131,10 +137,10 @@ export default function About() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ── AWARDS ── */}
-      <section className="py-20 bg-[#001a34]">
+      {/* <section className="py-20 bg-[#001a34]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-xl mx-auto mb-14">
             <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Recognition</p>
@@ -155,7 +161,7 @@ export default function About() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
     </main>
   )
 }

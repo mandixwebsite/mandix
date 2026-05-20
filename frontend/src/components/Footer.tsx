@@ -14,7 +14,7 @@ export default function Footer() {
               <img src={simplifiedLogo} alt="Mandix Consultants" className="h-14 w-auto" />
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Expert accountancy and business advisory services dedicated to helping you achieve your financial goals with comprehensive, tailored solutions.
+              Built with purpose. Driven by ambition. Delivering the financial expertise your business deserves — every single time.
             </p>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-3">
@@ -53,12 +53,12 @@ export default function Footer() {
             <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-5">Services</h4>
             <ul className="space-y-3">
               {[
-                'Auditing & Assurance',
-                'Taxation Planning',
-                'Financial Advisory',
-                'Corporate Advisory',
-                'Bookkeeping & Accounting',
-                'Business Formation',
+                'Audit & Assurance',
+                'Corporate Tax Services',
+                'Personal Tax Services',
+                'Indirect Tax Services',
+                'Outsourcing Services',
+                'Registration & Licensing',
               ].map(service => (
                 <li key={service}>
                   <Link
@@ -78,14 +78,14 @@ export default function Footer() {
             <h4 className="text-sm font-bold uppercase tracking-wider text-white mb-5">Contact Info</h4>
             <ul className="space-y-4">
               {[
-                { Icon: MapPin, text: 'Plot no 20, 3rd floor 3B, Green Park Avenue, Suchitra, Telangana - 500067' },
+                { Icon: MapPin, text: 'Plot no 20, 3rd floor 3B, Green Park Avenue, Suchitra - Kompally, Hyderabad, Telangana - 500067', link: 'https://share.google/73WSJyh2PZ8EmY3o8' },
                 { Icon: Phone, text: '+91 90005 42422' },
-                { Icon: Mail, text: 'mandixconsultants@gmail.com' },
-                { Icon: Clock, text: 'Mon–Fri: 9:00 AM – 6:00 PM' },
-              ].map(({ Icon, text }, i) => (
+                { Icon: Mail, text: 'info@mandixconsultants.com', link: 'mailto:info@mandixconsultants.com' },
+                { Icon: Clock, text: 'Mon-Sat: 9:30 AM - 6:30 PM' },
+              ].map(({ Icon, text, link }, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <Icon size={15} className="text-[#1a73e8] mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-400 text-sm leading-snug">{text}</span>
+                  {link ? <a href={link} target="_blank" rel="noopener noreferrer" className="text-gray-400 text-sm leading-snug hover:text-white transition-colors">{text}</a> : <span className="text-gray-400 text-sm leading-snug">{text}</span>}
                 </li>
               ))}
             </ul>

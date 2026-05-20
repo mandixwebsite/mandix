@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { CheckCircle2, ArrowRight, Loader2 } from 'lucide-react'
 
 const API_URL = import.meta.env.DEV ? 'http://localhost:4000' : ''
@@ -68,11 +69,12 @@ function CalendarPicker({ selected, onSelect }: { selected: number | null; onSel
 }
 
 export default function Appointment() {
+  const location = useLocation()
   const [form, setForm] = useState({
     name: '', email: '', phone: '', company: '',
     service: '', preferred_time: '', notes: '',
   })
-  const [selectedDate, setSelectedDate] = useState<number | null>(null)
+  const [selectedDate, setSelectedDate] = useState<number | null>(location.state?.selectedDay || null)
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
@@ -220,6 +222,7 @@ export default function Appointment() {
                       <option>Corporate Advisory</option>
                       <option>Bookkeeping &amp; Accounting</option>
                       <option>Business Formation</option>
+                      <option>Other</option>
                     </select>
                   </div>
                   <div className="flex flex-col gap-1.5">

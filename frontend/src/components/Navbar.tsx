@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
-import logoMark from '../assets/4-svgs/Logomark (white bg).svg'
+import logoMark from '../assets/4-svgs/Simplified logo.svg'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -36,8 +36,8 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-17">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md transition-transform duration-200 group-hover:scale-105">
-              <img src={logoMark} alt="Mandix Logo" className="w-full h-full object-contain" />
+            <div className="w-auto h-14 transition-transform duration-200">
+              <img src={logoMark} alt="Mandix Logo" className="w-auto h-14 object-contain" />
             </div>
           </Link>
 

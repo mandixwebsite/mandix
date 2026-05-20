@@ -149,26 +149,7 @@ export default function Blog() {
         </>
       )}
 
-      {/* ── NEWSLETTER ── */}
-      <section className="py-20 bg-[#1a73e8]">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-extrabold text-white mb-4">Stay Informed</h2>
-          <p className="text-blue-100 mb-8">
-            Subscribe to our newsletter and receive expert insights, tax tips, and industry updates directly in your inbox.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Enter your email address"
-              className="flex-1 px-4 py-3 rounded-xl text-sm text-[#0d1b2e] outline-none bg-white placeholder:text-gray-400 focus:ring-2 focus:ring-white/30"
-            />
-            <button className="px-6 py-3 bg-[#001a34] text-white font-semibold rounded-xl hover:bg-[#0d3362] transition-colors text-sm">
-              Subscribe
-            </button>
-          </div>
-          <p className="text-blue-200 text-xs mt-4">No spam. Unsubscribe at any time.</p>
-        </div>
-      </section>
+    
     </main>
   )
 }

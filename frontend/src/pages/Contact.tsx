@@ -5,26 +5,29 @@ const contactInfo = [
   {
     icon: <MapPin size={22} />,
     title: 'Visit Our Office',
-    detail: 'Plot no 20, 3rd floor 3B, Green Park Avenue, Suchitra, Telangana - 500067',
-    sub: 'We welcome walk-ins Mon–Fri',
+    detail: 'Plot no 20, 3rd floor 3B, Green Park Avenue, Suchitra - Kompally, Hyderabad, Telangana - 500067',
+    sub: 'We welcome walk-ins Mon–Sat',
+    link: 'https://share.google/73WSJyh2PZ8EmY3o8',
   },
   {
     icon: <Phone size={22} />,
     title: 'Call Us',
     detail: '+91 90005 42422',
-    sub: 'Mon–Fri, 9:00 AM – 6:00 PM',
+    sub: 'Mon–Sat, 9:30 AM – 6:30 PM',
+    link: 'tel:+919000542422',
   },
   {
     icon: <Mail size={22} />,
     title: 'Email Us',
-    detail: 'mandixconsultants@gmail.com',
+    detail: 'info@mandixconsultants.com',
     sub: 'We respond within 24 hours',
+    link: 'mailto:info@mandixconsultants.com',
   },
   {
     icon: <Clock size={22} />,
     title: 'Business Hours',
-    detail: 'Mon–Fri: 9:00 AM – 6:00 PM',
-    sub: 'Sat: 10:00 AM – 2:00 PM',
+    detail: 'Mon–Sat: 9:30 AM – 6:30 PM',
+    sub: 'Closed on Sunday',
   },
 ]
 
@@ -88,7 +91,13 @@ export default function Contact() {
                   {item.icon}
                 </div>
                 <h3 className="text-sm font-bold text-[#0d1b2e] mb-1">{item.title}</h3>
-                <p className="text-sm text-[#1a73e8] font-medium mb-1">{item.detail}</p>
+                {item.link ? (
+                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-sm text-[#1a73e8] font-medium mb-1 hover:underline block">
+                    {item.detail}
+                  </a>
+                ) : (
+                  <p className="text-sm text-[#1a73e8] font-medium mb-1">{item.detail}</p>
+                )}
                 <p className="text-xs text-gray-400">{item.sub}</p>
               </div>
             ))}
@@ -127,7 +136,7 @@ export default function Contact() {
                 </div>
                 <p className="text-xs text-gray-400 mb-4">Prefer to chat? Reach us directly on WhatsApp for faster responses.</p>
                 <a
-                  href="https://wa.me/+919676424384"
+                  href="https://wa.me/+919000542422 "
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#25d366] text-white font-semibold rounded-xl text-sm hover:bg-[#1fba59] transition-colors"
@@ -251,7 +260,7 @@ export default function Contact() {
           <div className="rounded-2xl overflow-hidden shadow-sm border border-gray-100 h-[400px]">
             <iframe
               title="Mandix Office Location"
-              src="https://maps.google.com/maps?q=Plot%20no%2020%2C%203rd%20floor%203B%2C%20Green%20Park%20Avenue%2C%20Suchitra%2C%20Telangana%20500067&t=&z=13&ie=UTF8&iwloc=&output=embed"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4894.7910143409035!2d78.47380476667672!3d17.505314271239648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d5b110009bea61%3A0xb667230db605f695!2sMandix%20Consultants!5e0!3m2!1sen!2sin!4v1779079659720!5m2!1sen!2sin"
               width="100%"
               height="100%"
               style={{ border: 0 }}

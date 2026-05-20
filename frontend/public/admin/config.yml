@@ -100,3 +100,55 @@ collections:
         name: body
         widget: markdown
         hint: "Write your blog post here. Full markdown supported including tables, code blocks, images."
+
+  - name: careers
+    label: Careers
+    label_singular: Career Opening
+    folder: frontend/content/careers
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - label: Job Title
+        name: title
+        widget: string
+        hint: "e.g., Senior Tax Consultant"
+        
+      - label: Department
+        name: department
+        widget: string
+        hint: "e.g., Taxation"
+
+      - label: Location
+        name: location
+        widget: string
+        default: "Hyderabad, India"
+
+      - label: Job Type
+        name: type
+        widget: select
+        options:
+          - Full-time
+          - Part-time
+          - Contract
+        default: Full-time
+
+      - label: Description
+        name: desc
+        widget: text
+        hint: "Short summary of the role"
+
+      - label: Requirements
+        name: requirements
+        widget: list
+        summary: "{{fields.requirement}}"
+        field: { label: Requirement, name: requirement, widget: string }
+        hint: "Add individual bullet points for requirements"
+
+      - label: Content (Optional)
+        name: body
+        widget: markdown
+        required: false
+        hint: "Full job description if needed (optional)"

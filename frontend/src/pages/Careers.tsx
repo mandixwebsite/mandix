@@ -11,60 +11,9 @@ const benefits = [
   { icon: <Zap size={22} />, title: 'Continuous Learning', desc: 'Training budgets, conference attendance, certifications, and access to premium learning resources.' },
 ]
 
-const openings = [
-  {
-    title: 'Senior Tax Consultant',
-    department: 'Taxation',
-    location: 'Hyderabad, India',
-    type: 'Full-time',
-    desc: 'We are looking for an experienced tax consultant to join our growing taxation team. You will provide expert advice to clients on complex tax matters, develop tax strategies, and ensure compliance.',
-    requirements: [
-      '5+ years of experience in corporate taxation',
-      'CA/CPA qualification preferred',
-      'Strong knowledge of GST and income tax regulations',
-      'Excellent communication and client management skills',
-    ],
-  },
-  {
-    title: 'Audit Manager',
-    department: 'Audit & Assurance',
-    location: 'Hyderabad, India',
-    type: 'Full-time',
-    desc: 'Lead audit engagements for a diverse portfolio of clients across various industries. Manage audit teams, ensure quality standards, and build lasting client relationships.',
-    requirements: [
-      '7+ years of audit experience',
-      'CPA or equivalent certification required',
-      'Experience in leading audit teams',
-      'Strong understanding of IFRS and local accounting standards',
-    ],
-  },
-  {
-    title: 'Financial Advisory Analyst',
-    department: 'Financial Advisory',
-    location: 'Hyderabad, India',
-    type: 'Full-time',
-    desc: 'Join our financial advisory team to help clients with investment decisions, financial modeling, and strategic planning. Work on exciting M&A and restructuring projects.',
-    requirements: [
-      '2-4 years of experience in financial modeling or investment banking',
-      'Advanced Excel and financial modeling skills',
-      'MBA or Finance degree preferred',
-      'Strong analytical and presentation skills',
-    ],
-  },
-  {
-    title: 'Junior Accountant',
-    department: 'Accounting',
-    location: 'Hyderabad, India',
-    type: 'Full-time',
-    desc: 'An excellent entry-level opportunity for fresh graduates to join our accounting team and build a solid foundation in professional accountancy services.',
-    requirements: [
-      'B.Com or equivalent degree',
-      'CA Inter or pursuing CA final',
-      'Proficiency in Tally/QuickBooks',
-      'Strong attention to detail',
-    ],
-  },
-]
+import { fetchJobs } from '../lib/careersApi'
+
+const openings = fetchJobs()
 
 export default function Careers() {
   const [expandedJob, setExpandedJob] = useState<number | null>(null)
@@ -204,7 +153,7 @@ export default function Careers() {
               </div>
             ))}
           </div>
-          <div className="mt-10 text-center p-8 bg-[#f8f9fc] rounded-2xl border border-gray-100">
+          {/* <div className="mt-10 text-center p-8 bg-[#f8f9fc] rounded-2xl border border-gray-100">
             <p className="text-gray-500 mb-2">Don't see a role that fits?</p>
             <p className="text-sm text-gray-400 mb-5">We're always looking for talented people. Send us your resume and we'll keep it on file.</p>
             <Link
@@ -213,7 +162,7 @@ export default function Careers() {
             >
               Send Your Resume <ArrowRight size={14} />
             </Link>
-          </div>
+          </div> */}
         </div>
       </section>
     </main>

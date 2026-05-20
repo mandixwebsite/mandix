@@ -10,34 +10,34 @@ import type { NormalizedPost } from '../lib/api'
 
 const services = [
   {
-    icon: <FileText size={22} />,
-    title: 'Statutory Audit',
-    desc: 'Rigorous financial statement and compliance audits to enhance transparency and stakeholder confidence.',
-  },
-  {
-    icon: <BarChart2 size={22} />,
-    title: 'Internal Audit',
-    desc: 'Risk-based internal audits, operational audits, and IT audits tailored to streamline your processes.',
-  },
-  {
-    icon: <TrendingUp size={22} />,
-    title: 'Corporate Tax Services',
-    desc: 'Expert tax compliance, reporting, and planning strategies designed to optimize your regulatory tax footprint.',
+    icon: <Shield size={22} />,
+    title: 'Audit & Assurance',
+    desc: 'Rigorous, independent audits that go beyond compliance — building stakeholder confidence and driving smarter business decisions.',
   },
   {
     icon: <Building2 size={22} />,
+    title: 'Corporate Tax Services',
+    desc: "Taxes are inevitable — but overpaying isn't. Strategic tax planning and proactive advisory that keeps corporates compliant, efficient, and protected from unnecessary liability.",
+  },
+  {
+    icon: <Users size={22} />,
+    title: 'Personal Tax Services',
+    desc: 'From ITR filing to tax planning — precision-driven personal tax solutions for salaried professionals, self-employed individuals, and investors.',
+  },
+  {
+    icon: <BarChart2 size={22} />,
     title: 'Indirect Tax Services',
-    desc: 'Comprehensive GST compliance, advisory, and transaction tax strategies tailored to your industry.',
+    desc: 'End-to-end GST management — from registration and return filing to assessments and litigation — so compliance never slows you down.',
   },
   {
     icon: <Briefcase size={22} />,
-    title: 'Corporate Finance',
-    desc: 'Specialized corporate finance solutions including detailed valuation services and robust transaction support.',
+    title: 'Outsourcing services',
+    desc: 'Hand over your accounting, payroll, and compliance operations to us — and focus entirely on growing your business.',
   },
   {
-    icon: <BookOpen size={22} />,
-    title: 'Outsourcing Services',
-    desc: 'End-to-end outsourcing solutions for payroll processing, accounting, bookkeeping, and managed finance.',
+    icon: <Award size={22} />,
+    title: 'Registration and Licensing',
+    desc: 'Company registrations, licenses, and regulatory approvals — handled seamlessly so you start right, from day one.',
   },
 ]
 
@@ -88,11 +88,10 @@ const testimonials = [
 ]
 
 
-function CalendarWidget() {
+function CalendarWidget({ selected, onSelect }: { selected: number | null, onSelect: (d: number) => void }) {
   const today = new Date()
   const [currentMonth, setCurrentMonth] = useState(today.getMonth())
   const [currentYear, setCurrentYear] = useState(today.getFullYear())
-  const [selected, setSelected] = useState<number | null>(null)
 
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
   const days = ['S','M','T','W','T','F','S']
@@ -130,7 +129,7 @@ function CalendarWidget() {
           <button
             key={i}
             disabled={!d}
-            onClick={() => d && setSelected(d)}
+            onClick={() => d && onSelect(d)}
             className={`h-8 w-full text-xs font-medium rounded-lg transition-all duration-150 ${
               !d ? 'invisible' :
               d === selected ? 'bg-[#1a73e8] text-white shadow-md' :
@@ -151,6 +150,7 @@ function CalendarWidget() {
 const latestPosts: NormalizedPost[] = fetchPosts().slice(0, 3)
 
 export default function Home() {
+  const [selectedDay, setSelectedDay] = useState<number | null>(null)
 
   return (
     <main className="pt-[68px]">
@@ -168,18 +168,14 @@ export default function Home() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1a73e8]/20 border border-[#1a73e8]/30 text-[#7ab8ff] text-xs font-semibold tracking-wider uppercase mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#1a73e8] animate-pulse" />
-              Trusted Financial Advisory
-            </span>
+
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] mb-6">
-              Expert Accountancy<br />
-              <span className="text-[#1a73e8]">& Business Advisory</span><br />
-              Services
+              Where Strategy Meets Compliance.<br />
+              <span className="text-[#1a73e8]">That's Crafting Finance.</span>
             </h1>
-            <p className="text-lg text-gray-300 mb-3 font-medium italic">Your Success Matters</p>
+            <p className="text-lg text-gray-300 mb-3 font-medium italic">We Measure Our Success by Yours</p>
             <p className="text-base text-gray-400 mb-10 leading-relaxed max-w-lg">
-              We are dedicated to helping you achieve your financial goals with our comprehensive, tailored professional services.
+              We don't just manage your finances — we architect them. With expertise across tax, audit, and advisory, Mandix Consultants is your partner in every financial chapter.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -196,15 +192,6 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* Trust stats */}
-            <div className="mt-14 flex flex-wrap gap-8">
-              {[['15+','Years Exp.'],['500+','Clients'],['95%','Retention'],['50+','Experts']].map(([n,l]) => (
-                <div key={l} className="text-center">
-                  <div className="text-2xl font-extrabold text-white">{n}</div>
-                  <div className="text-xs text-gray-400 mt-0.5">{l}</div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -216,13 +203,13 @@ export default function Home() {
             <div>
               <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">About Our Company</p>
               <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e] leading-tight mb-6">
-                Your Trusted Partner for Audit, Taxation & Advisory
+                India-rooted. Globally ambitious.
               </h2>
               <p className="text-gray-500 leading-relaxed mb-6">
-                We provide businesses with practical, actionable strategies that drive real results. Our team of certified professionals brings decades of combined experience to help you navigate financial complexities, ensure regulatory compliance, and achieve sustainable growth.
+                At Mandix Consultants, we craft personalised financial solutions built on integrity, innovation, and a relentless focus on your success. From navigating complex tax structures to delivering rigorous audits and strategic financial advisory — we bring clarity to every challenge your business faces. Our team of seasoned professionals works closely with Startups, Corporates, HNIs, and NRIs to deliver solutions that are not just compliant, but truly transformative.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                {[['15+','Years Experience'],['500+','Clients Served'],['95%','Client Retention'],['50+','Team Members']].map(([n,l]) => (
+                {[['100Cr+','Clients Revenue Managed'],['8+','Years of Combined Exp.'],['500+','Clients Served'],['50+','Businesses Transformed']].map(([n,l]) => (
                   <div key={l} className="text-center p-4 bg-[#f8f9fc] rounded-xl">
                     <span className="block text-2xl font-extrabold text-[#1a73e8]">{n}</span>
                     <span className="text-xs text-gray-500 mt-1 leading-tight block">{l}</span>
@@ -243,15 +230,7 @@ export default function Home() {
                 alt="Team at work"
                 className="rounded-2xl shadow-2xl w-full object-cover aspect-[4/3]"
               />
-              <div className="absolute -bottom-5 -left-5 bg-white rounded-2xl shadow-xl p-4 flex items-center gap-3 border border-gray-100">
-                <div className="w-10 h-10 rounded-xl bg-[#e8f0fe] flex items-center justify-center text-[#1a73e8]">
-                  <Shield size={18} />
-                </div>
-                <div>
-                  <p className="text-[11px] font-bold text-[#0d1b2e]">Certified Excellence</p>
-                  <p className="text-[10px] text-gray-400">ISO 9001:2015 Certified</p>
-                </div>
-              </div>
+
             </div>
           </div>
         </div>
@@ -261,10 +240,10 @@ export default function Home() {
       <section className="py-20 bg-[#f8f9fc]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">What We Offer</p>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e] mb-4">Specialized Services for Your Financial Needs</h2>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Our Expertise</p>
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e] mb-4">Every Financial Challenge. One Trusted Firm.</h2>
             <p className="text-gray-500 text-base">
-              We offer a comprehensive range of professional services tailored to meet the unique requirements of your business.
+              "From corporate tax strategy to audit assurance, GST compliance to CFO advisory — Mandix brings specialist expertise across every dimension of your financial world."
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -302,18 +281,18 @@ export default function Home() {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-xl mx-auto mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Book a Session</p>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e] mb-4">Schedule a Consultation</h2>
-            <p className="text-gray-500">Book an appointment with our experts to discuss your financial needs</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Book a Consultation</p>
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e] mb-4">Reserve Your Strategy Session</h2>
+            <p className="text-gray-500">Book an appointment to start crafting your financial journey</p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start max-w-4xl mx-auto">
             <div className="bg-[#1a73e8] rounded-2xl p-8 text-white">
               <h3 className="text-xl font-bold mb-4">Expert Consultation</h3>
               <p className="text-blue-100 text-sm leading-relaxed mb-6">
-                Our team of certified professionals is ready to help you with personalized advice tailored to your business needs.
+                We listen before we advise. Because understanding your world is how we craft the right solution for it.
               </p>
               <ul className="space-y-4 mb-8">
-                {['15-minute free consultation','Video or in-person options','Flexible scheduling','Immediate response guaranteed'].map(item => (
+                {['15 minutes. Completely free.','Meet us your way — video or in person','Book a slot that fits your schedule','We respond within 24 hours'].map(item => (
                   <li key={item} className="flex items-center gap-3 text-sm">
                     <CheckCircle2 size={16} className="text-blue-200 flex-shrink-0" />
                     {item}
@@ -322,12 +301,13 @@ export default function Home() {
               </ul>
               <Link
                 to="/appointment"
+                state={{ selectedDay }}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[#1a73e8] font-bold rounded-xl hover:bg-blue-50 transition-colors"
               >
-                Book Now <ArrowRight size={16} />
+                Reserve My Session <ArrowRight size={16} />
               </Link>
             </div>
-            <CalendarWidget />
+            <CalendarWidget selected={selectedDay} onSelect={setSelectedDay} />
           </div>
         </div>
       </section>
@@ -337,9 +317,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Sector Expertise</p>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-white mb-4">Industries We Serve</h2>
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-white mb-4">Industries We Understand. Deeply.</h2>
             <p className="text-gray-400">
-              Our expertise spans across various industries, providing specialized financial and advisory services tailored to sector-specific needs.
+              Every industry carries its own financial complexities, regulatory demands, and growth challenges. At Mandix, we don't just serve industries — we speak their language.
             </p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
@@ -436,23 +416,23 @@ export default function Home() {
       <section className="py-20 bg-[#f8f9fc]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-xl mx-auto mb-14">
-            <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Get in Touch</p>
-            <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e] mb-4">Ready to Talk?</h2>
+            <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Let's Connect</p>
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e] mb-4">Your Next Financial Move Starts With a Conversation.</h2>
             <p className="text-gray-500">
-              Have questions or need expert advice? Our team is here to help.{' '}
+              Whether you have a specific challenge in mind or simply want to explore what Mandix can do for your business — we're ready to listen, advise, and act.{' '}
               <Link to="/contact" className="text-[#1a73e8] underline">Fill out the form</Link> or reach out directly.
             </p>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Blue panel */}
             <div className="bg-[#1a73e8] rounded-2xl p-8 text-white">
-              <h3 className="text-xl font-bold mb-4">Why Reach Out?</h3>
+              
               <ul className="space-y-4 mb-8">
                 {[
-                  'Expert team ready to assist you',
-                  'Prompt responses to all inquiries',
-                  'Customized solutions for your business',
-                  'Continuous support throughout our partnership',
+                  'Certified specialists across every practice area',
+                  'Response within 24 business hours — always',
+                  'Solutions built around your goals, never templates',
+                  'A long-term partner, not a one-time advisor',
                 ].map(item => (
                   <li key={item} className="flex items-start gap-3 text-sm text-blue-100">
                     <CheckCircle2 size={16} className="text-blue-200 flex-shrink-0 mt-0.5" />
@@ -462,14 +442,20 @@ export default function Home() {
               </ul>
               <div className="pt-6 border-t border-white/20 space-y-3">
                 {[
-                  { icon: <Phone size={14} />, text: '+91 90005 42422' },
-                  { icon: <Mail size={14} />, text: 'mandixconsultants@gmail.com' },
-                  { icon: <MapPin size={14} />, text: 'Plot no 20, 3rd floor 3B, Green Park Avenue, Suchitra, Telangana - 500067' },
-                  { icon: <Clock size={14} />, text: 'Mon-Fri: 9AM - 6PM' },
+                  { icon: <Phone size={14} />, text: '+91 90005 42422', link: 'tel:+919000542422' },
+                  { icon: <Mail size={14} />, text: 'info@mandixconsultants.com', link: 'mailto:info@mandixconsultants.com' },
+                  { icon: <MapPin size={14} />, text: 'Plot no 20, 3rd floor 3B, Green Park Avenue, Suchitra - Kompally, Hyderabad, Telangana - 500067', link: 'https://share.google/73WSJyh2PZ8EmY3o8' },
+                  { icon: <Clock size={14} />, text: 'Mon-Sat: 9:30 AM - 6:30 PM' },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 text-sm text-blue-100">
                     <span className="text-blue-200">{item.icon}</span>
-                    {item.text}
+                    {item.link ? (
+                      <a href={item.link} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                        {item.text}
+                      </a>
+                    ) : (
+                      <span>{item.text}</span>
+                    )}
                   </div>
                 ))}
               </div>
@@ -520,7 +506,7 @@ export default function Home() {
           </div>
           <div className="mt-12 rounded-2xl overflow-hidden shadow-sm border border-gray-100 h-[400px]">
             <iframe 
-              src="https://maps.google.com/maps?q=Plot%20no%2020%2C%203rd%20floor%203B%2C%20Green%20Park%20Avenue%2C%20Suchitra%2C%20Telangana%20500067&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4894.7910143409035!2d78.47380476667672!3d17.505314271239648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d5b110009bea61%3A0xb667230db605f695!2sMandix%20Consultants!5e0!3m2!1sen!2sin!4v1779079659720!5m2!1sen!2sin" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 

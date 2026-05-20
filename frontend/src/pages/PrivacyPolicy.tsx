@@ -55,9 +55,9 @@ export default function PrivacyPolicy() {
           <p>
             If you have any questions about this Privacy Policy or our privacy practices, please contact us at:
             <br />
-            <strong>Email:</strong> mandixconsultants@gmail.com
+            <strong>Email:</strong> info@mandixconsultants.com
             <br />
-            <strong>Address:</strong> Plot no 20, 3rd floor 3B, Green Park Avenue, Suchitra, Telangana - 500067
+            <strong>Address:</strong> Plot no 20, 3rd floor 3B, Green Park Avenue, Suchitra - Kompally, Hyderabad, Telangana - 500067
           </p>
         </div>
       </div>
