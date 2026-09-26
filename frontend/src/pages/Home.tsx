@@ -58,33 +58,61 @@ const industries = [
 
 const testimonials = [
   {
-    name: 'Mohammed Sohail Ahmed',
-    initials: 'MS',
+    name: 'shirisha poornamcheety',
+    initials: 'SP',
     rating: 5,
-    text: 'Best chartered accountants in the city. Professionalism at its best.',
-    ago: '3 months ago',
+    text: 'I want to sincerely appreciate the support and guidance I\'ve received from my CA(Vikas). From the very beginning of my tax filing journey — when I was referred by my...',
+    ago: 'a month ago',
   },
   {
-    name: 'Agha Hyder Ali',
-    initials: 'AH',
+    name: 'Kumaran Rajendiran',
+    initials: 'KR',
     rating: 5,
-    text: 'It is my great pleasure to share my experience with this firm. They are truly dedicated and professional in every way.',
-    ago: '3 months ago',
+    text: 'I\'ve been getting my Indian Income Tax Returns (ITR) filed through them for the last 3 years, and the experience has been consistently excellent. They make the entire...',
+    ago: '2 months ago',
   },
   {
-    name: 'Mohammed Irfan',
-    initials: 'MI',
+    name: 'Saankulp Jain',
+    initials: 'SJ',
     rating: 5,
-    text: 'Excellent service. Highly recommended. Fast, reliable, and thorough with every task.',
-    ago: '4 months ago',
+    text: 'I had a great experience with Mandix Consultants for my ITR filing. This was the first time I took the assistance of a Chartered Accountant, and Vikas made the entire...',
+    ago: 'a month ago',
   },
   {
-    name: 'Syed Hyder Ali Pasha',
-    initials: 'SH',
+    name: 'Prasad',
+    initials: 'P',
     rating: 5,
-    text: 'Efficient and Reliable. Gave required details in the morning and shared the certificates within few hours. Highly recommended.',
-    ago: '4 months ago',
+    text: 'I\'ve used Mano\'s ITR service for the last four years and he\'s been great every time. Really professional, always helpful, and quick to support whenever I have questions....',
+    ago: 'a month ago',
   },
+  {
+    name: 'Dhanagodeswaran Saravanabhavan',
+    initials: 'DS',
+    rating: 5,
+    text: 'Good CA to file your ITR . Good consultation and guidance and helpful of followup queries also',
+    ago: '2 months ago',
+  },
+  {
+    name: 'DBM krishna kumar',
+    initials: 'DK',
+    rating: 5,
+    text: 'Excellent services from Mandix Consultants. Awesome interaction with Mr.Mano Vikas. Best wishes for their uncompromising services. Keep up the good work. Kudos.',
+    ago: '2 months ago',
+  },
+  {
+    name: 'Sheeraz Ahmed',
+    initials: 'SA',
+    rating: 5,
+    text: 'A very professional and quick service. Vikas is knowledgeable and very helpful in the entire process of filing ITR. I definitely recommend him for all your IT...',
+    ago: '2 months ago',
+  },
+  {
+    name: 'Usha Raniki ki',
+    initials: 'UR',
+    rating: 5,
+    text: 'I am with mandix consultants since 3 years very excellent personel services given always available at call verypolite and prompt services',
+    ago: 'a month ago',
+  }
 ]
 
 
@@ -337,16 +365,18 @@ export default function Home() {
       </section>
 
       {/* ── TESTIMONIALS ── */}
-      <section className="py-20 bg-[#f8f9fc]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-xl mx-auto mb-14">
+      <section className="py-20 bg-[#f8f9fc] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
+          <div className="text-center max-w-xl mx-auto">
             <p className="text-xs font-bold uppercase tracking-widest text-[#1a73e8] mb-3">Client Reviews</p>
             <h2 className="text-3xl lg:text-4xl font-extrabold text-[#0d1b2e] mb-4">What Clients Say</h2>
             <p className="text-gray-500">Read testimonials from our satisfied clients across various industries</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {testimonials.map((t, i) => (
-              <div key={i} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+        </div>
+        <div className="relative w-full overflow-hidden">
+          <div className="animate-marquee gap-6 px-4">
+            {[...testimonials, ...testimonials].map((t, i) => (
+              <div key={i} className="w-[300px] sm:w-[350px] shrink-0 bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-[#1a73e8] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
                     {t.initials}
