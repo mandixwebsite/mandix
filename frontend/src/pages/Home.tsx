@@ -376,7 +376,13 @@ export default function Home() {
         <div className="relative w-full overflow-hidden">
           <div className="animate-marquee gap-6 px-4">
             {[...testimonials, ...testimonials].map((t, i) => (
-              <div key={i} className="w-[300px] sm:w-[350px] shrink-0 bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+              <a
+                key={i}
+                href="https://www.google.com/maps/place/Mandix+Consultants/@17.5047383,78.4751916,17z/data=!4m8!3m7!1s0x89d5b110009bea61:0xb667230db605f695!8m2!3d17.5047332!4d78.4777719!9m1!1b1!16s%2Fg%2F11vwx02hjk?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-[300px] sm:w-[350px] shrink-0 bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md hover:border-[#1a73e8] transition-all duration-200 cursor-pointer block"
+              >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-[#1a73e8] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
                     {t.initials}
@@ -392,7 +398,7 @@ export default function Home() {
                 </div>
                 <p className="text-sm text-gray-500 leading-relaxed mb-3 italic">"{t.text}"</p>
                 <span className="text-xs text-gray-400">{t.ago}</span>
-              </div>
+              </a>
             ))}
           </div>
         </div>
