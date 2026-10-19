@@ -8,6 +8,12 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 /**
  * POST /api/appointment
  * Body: { name, email, phone, company, service, preferred_time, preferred_date, notes }
+ *
+ * Priority order:
+ *  1. Validate input
+ *  2. Fire-and-forget email to CEO   ← never blocks the response
+ *  3. Return 200 success to the user ← user always sees success
+ *  4. Save to Supabase in background ← DB errors are logged, never shown to user
  */
 async function handleAppointment(req, res) {
   const { name, email, phone, company, service, preferred_time, preferred_date, notes } = req.body
@@ -16,17 +22,7 @@ async function handleAppointment(req, res) {
     return res.status(400).json({ error: 'Name, email, service and preferred time are required.' })
   }
 
-  // 1. Save to Supabase
-  const { error: dbError } = await supabase
-    .from('appointment_submissions')
-    .insert([{ name, email, phone, company, service, preferred_time, preferred_date, notes }])
-
-  if (dbError) {
-    console.error('Supabase insert error:', dbError)
-    return res.status(500).json({ error: 'Failed to save appointment. Please try again.' })
-  }
-
-  // 2. Send email to CEO
+  // ── 1. Build the notification email HTML ──────────────────────────────────
   const html = `
     <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f9fc;padding:32px;border-radius:12px;">
       <div style="background:#001a34;padding:24px;border-radius:10px 10px 0 0;text-align:center;">
@@ -56,17 +52,36 @@ async function handleAppointment(req, res) {
     </div>
   `
 
-  // Because domain is not verified, we MUST send from onboarding@resend.dev
+  // ── 2. Fire-and-forget: send notification email ───────────────────────────
+  // Never awaited — if email fails, user still sees success and it's logged.
   resend.emails.send({
     from: `Mandix Website <onboarding@resend.dev>`,
     to: process.env.CEO_EMAIL,
     subject: `[Appointment] ${service} — ${name} at ${preferred_time}${preferred_date ? ` on ${preferred_date}` : ''}`,
     html,
   }).catch(mailErr => {
-    console.error('Email send error:', mailErr)
+    console.error('[appointment] Email send error:', mailErr?.message || mailErr)
   })
 
-  return res.status(200).json({ success: true, message: 'Appointment booked! We will confirm with you within 24 hours.' })
+  // ── 3. Return success immediately ─────────────────────────────────────────
+  // The user sees success regardless of what happens with the DB below.
+  res.status(200).json({ success: true, message: 'Appointment booked! We will confirm with you within 24 hours.' })
+
+  // ── 4. Fire-and-forget: save to Supabase in background ───────────────────
+  // Any DB error is logged server-side only. The user has already received 200.
+  supabase
+    .from('appointment_submissions')
+    .insert([{ name, email, phone, company, service, preferred_time, preferred_date, notes }])
+    .then(({ error: dbError }) => {
+      if (dbError) {
+        console.error('[appointment] Supabase insert error:', dbError.message || dbError)
+      } else {
+        console.log(`[appointment] Saved to DB — ${name} / ${service}`)
+      }
+    })
+    .catch(err => {
+      console.error('[appointment] Supabase unexpected error:', err?.message || err)
+    })
 }
 
 const express = require('express')

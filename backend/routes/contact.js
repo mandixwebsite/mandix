@@ -8,6 +8,12 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 /**
  * POST /api/contact
  * Body: { name, email, phone, company, service, subject, message }
+ *
+ * Priority order:
+ *  1. Validate input
+ *  2. Fire-and-forget email to CEO   ← never blocks the response
+ *  3. Return 200 success to the user ← user always sees success
+ *  4. Save to Supabase in background ← DB errors are logged, never shown to user
  */
 async function handleContact(req, res) {
   const { name, email, phone, company, service, subject, message } = req.body
@@ -16,17 +22,7 @@ async function handleContact(req, res) {
     return res.status(400).json({ error: 'Name, email, subject and message are required.' })
   }
 
-  // 1. Save to Supabase
-  const { error: dbError } = await supabase
-    .from('contact_submissions')
-    .insert([{ name, email, phone, company, service, subject, message }])
-
-  if (dbError) {
-    console.error('Supabase insert error:', dbError)
-    return res.status(500).json({ error: 'Failed to save submission. Please try again.' })
-  }
-
-  // 2. Send email to CEO
+  // ── 1. Build the notification email HTML ──────────────────────────────────
   const html = `
     <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#f8f9fc;padding:32px;border-radius:12px;">
       <div style="background:#001a34;padding:24px;border-radius:10px 10px 0 0;text-align:center;">
@@ -54,18 +50,33 @@ async function handleContact(req, res) {
     </div>
   `
 
-  // 2. Send email to CEO (Fire-and-forget: do not await so the frontend doesn't hang)
-  // Because domain is not verified, we MUST send from onboarding@resend.dev
+  // ── 2. Fire-and-forget: send notification email ───────────────────────────
   resend.emails.send({
     from: `Mandix Website <onboarding@resend.dev>`,
     to: process.env.CEO_EMAIL,
     subject: `[Contact] ${subject} — from ${name}`,
     html,
   }).catch(mailErr => {
-    console.error('Email send error:', mailErr)
+    console.error('[contact] Email send error:', mailErr?.message || mailErr)
   })
 
-  return res.status(200).json({ success: true, message: 'Message received! We will get back to you within 24 hours.' })
+  // ── 3. Return success immediately ─────────────────────────────────────────
+  res.status(200).json({ success: true, message: 'Message received! We will get back to you within 24 hours.' })
+
+  // ── 4. Fire-and-forget: save to Supabase in background ───────────────────
+  supabase
+    .from('contact_submissions')
+    .insert([{ name, email, phone, company, service, subject, message }])
+    .then(({ error: dbError }) => {
+      if (dbError) {
+        console.error('[contact] Supabase insert error:', dbError.message || dbError)
+      } else {
+        console.log(`[contact] Saved to DB — ${name} / ${subject}`)
+      }
+    })
+    .catch(err => {
+      console.error('[contact] Supabase unexpected error:', err?.message || err)
+    })
 }
 
 const express = require('express')
