@@ -95,6 +95,7 @@ An OPC is designed specifically for solo entrepreneurs who want the benefits of 
 ●      Nominee director mandatory — must be an Indian resident
 
 ##### \
+
 So Which One Should You Choose?
 
 There is no single right answer — but there is a right answer for your specific situation.
@@ -140,5 +141,3 @@ At Mandix Consultants, we have helped businesses across sectors navigate this de
 If you are unsure which structure suits your business, we are here to help you think it through — clearly, honestly, and without any obligation.
 
 > ***Reserve a free15-minute strategy session with a Mandix specialist today.***
-
-\
