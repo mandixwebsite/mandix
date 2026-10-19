@@ -44,6 +44,10 @@ A Private Limited Company is a separate legal entity, distinct from its owners. 
 
 ●	Cannot invite public investment
 
+
+
+
+
 #### Limited Liability Partnership (LLP)
 
 An LLP combines the flexibility of a traditional partnership with the limited liability protection of a company. Partners are not personally liable for the debts and obligations of the LLP beyond their agreed contribution.
@@ -70,6 +74,10 @@ An LLP combines the flexibility of a traditional partnership with the limited li
 
 ●	Less credible than Pvt Ltd in the eyes of institutional investors
 
+
+
+
+
 #### One Person Company (OPC)
 
 An OPC is designed specifically for solo entrepreneurs who want the benefits of a company structure without requiring a second shareholder or director. Introduced under the Companies Act 2013, it allows a single person to operate a fully incorporated company.
@@ -93,6 +101,10 @@ An OPC is designed specifically for solo entrepreneurs who want the benefits of 
 ●	Mandatory conversion to Pvt Ltd once paid-up capital exceeds ₹50 lakhs or turnover crosses ₹2 crores
 
 ●	Nominee director mandatory — must be an Indian resident
+
+
+
+
 
 #### So Which One Should You Choose?
 
@@ -125,6 +137,10 @@ There is no single right answer — but there is a right answer for your specifi
 ●	You want limited liability without the complexity of a Pvt Ltd
 
 ●	Your business is expected to remain small in its initial years
+
+
+
+
 
 One More Thing Most Guides Don't Tell You
 
