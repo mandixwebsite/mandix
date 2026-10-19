@@ -3,7 +3,7 @@ title: "Private Limited vs LLP vs OPC "
 date: 2026-10-19
 excerpt: Which Structure Is Right for Your Business?
 cover: /images/blogs/whatsapp-image-2026-10-19-at-11.16.12-pm.jpeg
-category: Finance
+category: Strategy
 author: Mandix Advisory Team
 readTime: 6 min read
 featured: true
