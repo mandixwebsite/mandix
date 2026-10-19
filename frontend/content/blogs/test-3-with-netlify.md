@@ -14,11 +14,14 @@ At Mandix Consultants, we work with founders, professionals, and investors acros
 
 > ***"Should I register as a Private Limited Company, an LLP, or an OPC?"***
 
+\
 This guide breaks it down clearly, honestly, and without the jargon.
 
-#### **Understanding the Three Structures**
+### \
+**Understanding the Three Structures**
 
-##### Private Limited Company (Pvt Ltd)
+#### \
+Private Limited Company (Pvt Ltd)
 
 A Private Limited Company is a separate legal entity, distinct from its owners. It is owned by shareholders and managed by directors — and in many cases, the same person can be both.
 
@@ -28,27 +31,31 @@ A Private Limited Company is a separate legal entity, distinct from its owners. 
 
 ●      Limited liability — personal assets are protected
 
-●      Easier to raise equity funding from angel investors andVCs
+●      Easier to raise equity funding from angel investors and VCs
 
-●      Highly credible and recognised by banks, clients, andpartners
+●      Highly credible and recognized by banks, clients, and partners
 
-●      Perpetual succession — the company continues even ifownership changes
+●      Perpetual succession — the company continues even if ownership changes
 
 **Key Considerations:**
 
 ●      Requires a minimum of 2 directors and 2 shareholders
 
-●      Mandatory annual compliance — board meetings, statutoryfilings, audits
+●      Mandatory annual compliance — board meetings, statutory filings, audits
 
 ●      Higher compliance cost compared to LLP and OPC
 
 ●      Cannot invite public investment
 
-##### Limited Liability Partnership (LLP)
+
+
+#### Limited Liability Partnership (LLP)
 
 An LLP combines the flexibility of a traditional partnership with the limited liability protection of a company. Partners are not personally liable for the debts and obligations of the LLP beyond their agreed contribution.
 
 **Best suited for**: Professional service firms, consultants, small businesses with two or more partners.
+
+
 
 **Key Advantages:**
 
@@ -70,11 +77,15 @@ An LLP combines the flexibility of a traditional partnership with the limited li
 
 ●      Less credible than Pvt Ltd in the eyes of institutional investors
 
-##### One Person Company (OPC)
+
+
+#### One Person Company (OPC)
 
 An OPC is designed specifically for solo entrepreneurs who want the benefits of a company structure without requiring a second shareholder or director. Introduced under the Companies Act 2013, it allows a single person to operate a fully incorporated company.
 
 **Best suited for:** Solo founders, freelancers transitioning to a formal business, individual professionals wanting limited liability.
+
+
 
 **Key Advantages:**
 
@@ -94,9 +105,9 @@ An OPC is designed specifically for solo entrepreneurs who want the benefits of 
 
 ●      Nominee director mandatory — must be an Indian resident
 
-##### \
 
-So Which One Should You Choose?
+
+#### *So Which One Should You Choose?*
 
 There is no single right answer — but there is a right answer for your specific situation.
 
@@ -110,6 +121,8 @@ There is no single right answer — but there is a right answer for your specifi
 
 ●      You want maximum credibility with banks, enterprise clients, and partners
 
+
+
 **Choose LLP if:**
 
 ●      You are a professional setting up a practice
@@ -120,6 +133,8 @@ There is no single right answer — but there is a right answer for your specifi
 
 ●      You do not need equity investment
 
+
+
 **Choose OPC if:**
 
 ●      You are a solo entrepreneur starting out
@@ -128,9 +143,13 @@ There is no single right answer — but there is a right answer for your specifi
 
 ●      Your business is expected to remain small in its initial years
 
+
+
 ##### One More Thing Most Guides Don't Tell You
 
 The structure you choose today does not have to be permanent. Many successful businesses start as LLPs or OPCs and convert to Private Limited Companies as they grow. What matters most is choosing the structure that fits where you are today — and ensuring it does not create unnecessary friction in the next 2-3 years.
+
+
 
 > ***Getting it right from the start — or planning the conversion strategically — is always the smarter move.***
 
@@ -139,5 +158,7 @@ The structure you choose today does not have to be permanent. Many successful bu
 At Mandix Consultants, we have helped businesses across sectors navigate this decision — from first-generation entrepreneurs launching their first venture to seasoned professionals restructuring for growth. The right structure is never just a legal question —it is a financial, strategic, and operational one.
 
 If you are unsure which structure suits your business, we are here to help you think it through — clearly, honestly, and without any obligation.
+
+
 
 > ***Reserve a free15-minute strategy session with a Mandix specialist today.***
