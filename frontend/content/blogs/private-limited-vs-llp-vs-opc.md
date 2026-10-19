@@ -16,6 +16,10 @@ At Mandix Consultants, we work with founders, professionals, and investors acros
 
 This guide breaks it down clearly, honestly, and without the jargon.
 
+
+
+
+
 ### Understanding the Three Structures
 
 #### **Private Limited Company (Pvt Ltd)**
@@ -148,10 +152,18 @@ The structure you choose today does not have to be permanent. Many successful bu
 
 Getting it right from the start — or planning the conversion strategically — is always the smarter move.
 
+
+
+
+
 ##### The Mandix Perspective
 
 At Mandix Consultants, we have helped businesses across sectors navigate this decision — from first-generation entrepreneurs launching their first venture to seasoned professionals restructuring for growth. The right structure is never just a legal question — it is a financial, strategic, and operational one.
 
 If you are unsure which structure suits your business, we are here to help you think it through — clearly, honestly, and without any obligation.
+
+
+
+
 
 > ***Reserve a free 15-minute strategy session with a Mandix specialist today.***
