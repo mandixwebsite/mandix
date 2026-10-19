@@ -12,8 +12,6 @@ Choosing the right business structure is one of the most consequential decisions
 
 At Mandix Consultants, we work with founders, professionals, and investors across India every day — and the single most common question we hear is this:
 
-
-
 > ##### "Should I register as a Private Limited Company, an LLP, or an OPC?"
 
 This guide breaks it down clearly, honestly, and without the jargon.
@@ -25,8 +23,6 @@ This guide breaks it down clearly, honestly, and without the jargon.
 A Private Limited Company is a separate legal entity, distinct from its owners. It is owned by shareholders and managed by directors — and in many cases, the same person can be both.
 
 **Best suited for:** Startups seeking investor funding, businesses planning to scale, companies expecting multiple stakeholders.
-
-
 
 **Key Advantages:**
 
@@ -47,8 +43,6 @@ A Private Limited Company is a separate legal entity, distinct from its owners. 
 ●	Higher compliance cost compared to LLP and OPC
 
 ●	Cannot invite public investment
-
-
 
 #### Limited Liability Partnership (LLP)
 
@@ -76,8 +70,6 @@ An LLP combines the flexibility of a traditional partnership with the limited li
 
 ●	Less credible than Pvt Ltd in the eyes of institutional investors
 
-
-
 #### One Person Company (OPC)
 
 An OPC is designed specifically for solo entrepreneurs who want the benefits of a company structure without requiring a second shareholder or director. Introduced under the Companies Act 2013, it allows a single person to operate a fully incorporated company.
@@ -101,8 +93,6 @@ An OPC is designed specifically for solo entrepreneurs who want the benefits of 
 ●	Mandatory conversion to Pvt Ltd once paid-up capital exceeds ₹50 lakhs or turnover crosses ₹2 crores
 
 ●	Nominee director mandatory — must be an Indian resident
-
-
 
 #### So Which One Should You Choose?
 
@@ -136,15 +126,11 @@ There is no single right answer — but there is a right answer for your specifi
 
 ●	Your business is expected to remain small in its initial years
 
-
-
 One More Thing Most Guides Don't Tell You
 
 The structure you choose today does not have to be permanent. Many successful businesses start as LLPs or OPCs and convert to Private Limited Companies as they grow. What matters most is choosing the structure that fits where you are today — and ensuring it does not create unnecessary friction in the next 2-3 years.
 
 Getting it right from the start — or planning the conversion strategically — is always the smarter move.
-
-
 
 ##### The Mandix Perspective
 
@@ -152,8 +138,4 @@ At Mandix Consultants, we have helped businesses across sectors navigate this de
 
 If you are unsure which structure suits your business, we are here to help you think it through — clearly, honestly, and without any obligation.
 
-
-
 > ***Reserve a free 15-minute strategy session with a Mandix specialist today.***
-
-\
