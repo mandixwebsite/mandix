@@ -3,7 +3,18 @@ import { Clock, ArrowLeft, Share2, Check } from 'lucide-react'
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import type { Components } from 'react-markdown'
 import { fetchPostBySlug } from '../lib/api'
+
+// Custom renderers for react-markdown
+const markdownComponents: Components = {
+  // Wrap tables in a responsive scroll container
+  table: ({ children }) => (
+    <div className="blog-table-wrapper">
+      <table>{children}</table>
+    </div>
+  ),
+}
 
 export default function BlogPost() {
   const { id } = useParams() // slug from URL: /blog/my-post-slug
@@ -70,11 +81,11 @@ export default function BlogPost() {
             className="w-full aspect-[21/9] object-cover rounded-3xl shadow-xl border border-gray-100 mb-12"
           />
 
-          <div className="prose prose-lg prose-blue text-gray-600 max-w-none prose-headings:text-[#0d1b2e] prose-a:text-[#1a73e8] marker:text-[#1a73e8]">
-            <p className="text-xl font-medium text-[#0d1b2e] leading-relaxed mb-8">
+          <div className="blog-content">
+            <p style={{ fontSize: '1.15rem', fontWeight: 500, color: '#0d1b2e', lineHeight: 1.7, marginBottom: '2rem' }}>
               {post.excerpt}
             </p>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
               {post.content}
             </ReactMarkdown>
           </div>

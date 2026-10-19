@@ -58,10 +58,23 @@ const FALLBACK_IMG =
 // Parse a single raw file string into a NormalizedPost
 // ---------------------------------------------------------------------------
 
+/**
+ * Netlify CMS exports lists with Unicode bullets (● or •) followed by a tab/space.
+ * ReactMarkdown won't treat these as lists. We normalize them to proper `- ` syntax.
+ */
+function normalizeContent(raw: string): string {
+  return raw
+    // Convert "● \t" or "● " (Unicode bullet + optional tab/spaces) to markdown list item
+    .replace(/^[●•]\t/gm, '- ')
+    .replace(/^[●•] /gm, '- ')
+    // Collapse 3+ consecutive blank lines down to 2 (avoids excessive whitespace)
+    .replace(/\n{3,}/g, '\n\n')
+}
+
 function parsePost(filePath: string, rawContent: string): NormalizedPost {
   const parsed = fm<any>(rawContent)
   const data = parsed.attributes
-  const content = parsed.body
+  const content = normalizeContent(parsed.body)
 
   // Derive slug from filename: "../content/blogs/my-post.md" → "my-post"
   const slug = filePath.replace(/^.*\//, '').replace(/\.md$/, '')
